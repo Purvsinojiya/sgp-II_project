@@ -1,0 +1,22 @@
+.prenav{
+    background-color: #ecd7cf;
+    border : 3px solid black;
+    padding: 0px 0px 0px 0px;
+    width: 100%;
+}
+.prenav a{
+    margin: 0vmax 2vmax 0vmax 1vmax;
+    text-decoration: none;
+    color: black;
+}
+
+.p4{
+    display: grid;
+    grid-template-columns: 2fr 2fr 2fr 2fr;
+}
+.x {
+    font-size: 17px;
+    display: flex;
+    justify-content: center;
+    padding: -28px 170px -26px 107px;
+}

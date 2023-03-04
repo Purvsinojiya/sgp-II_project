@@ -1,0 +1,44 @@
+.backcolor{
+    background-color:rgb(226, 189, 149);
+    height: 17vmax;
+    width: 100%;
+    margin-top: 3.3vmax;
+}
+.hi{
+    display: flex;
+    flex-direction: column;
+    height: 12vmax;
+    width: 11vmax;
+    margin-left: 8px;
+}
+.h{
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+}
+.t{
+    display: flex;
+    justify-content: space-between;
+
+   margin-left: 0.5vmax;
+   font-size: 4px;
+}
+
+.t1{
+    margin-top: 2.7vmax;
+    margin-left: 2vmax;
+}
+.t2{
+    margin-top: 2.6vmax ;
+}
+.t3{
+    margin-top: 2.6vmax;
+    margin-left: 0.9vmax;
+    margin-right: 0.5vmax;
+} 
+.t p{
+    font-size: 10px;
+}
+.z{
+    margin-top: 1.5vmax;
+}

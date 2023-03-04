@@ -1,0 +1,62 @@
+.p1{
+
+        display: flex;
+        align-items: center;
+        height: 50%;
+        width: 64%;
+        z-index: -1;
+        margin-left: 70px;
+        padding: 58px;
+        margin: -15px 0px 0px 300px;
+        padding: 0px 58px 0px 33px;
+    
+} 
+.p2{
+    
+    display: flex;
+    align-items: center;
+    height: 50%;
+    width: 50%;
+    z-index: -1;
+    margin-left: 70px;
+    padding: 58px;
+    margin: -15px 0px 0px 375px;
+    padding: 0px 58px 0px 33px;
+
+}
+
+.p3{
+    
+    display: flex;
+    align-items: center;
+    height: 48%;
+    width: 48%;
+    z-index: -1;
+    margin-left: 70px;
+    padding: 58px;
+    margin: -15px 0px 0px 465px;
+    padding: 0px 58px 0px 33px;
+
+
+}
+
+.carousel-item {
+    position: relative;
+    display: none;
+    float: left;
+    width: 100%;
+    margin-right: -100%;
+    backface-visibility: hidden;
+    transition: tranformation 0.5 ease-in-out
+}
+.carousel-control-next-icon, .carousel-control-prev-icon {
+    display: inline-block;
+    width: 2rem;
+    height: 2rem;
+    background-repeat: no-repeat;
+    background-position: 50%;
+    background-size: 100% 100%;
+    color: aqua;
+    background-color: black;
+    border-radius: 10px;
+}
