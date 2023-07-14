@@ -1,4 +1,7 @@
 import React, { useState } from 'react';
+import { useNavigate } from "react-router-dom";
+
+
 
 const 
 Signup= () => {
@@ -6,9 +9,11 @@ Signup= () => {
   const [email, setEmail] = useState('');
   const [number, setNumber] = useState('');
   const [password, setPassword] = useState('');
+  const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    
 
     // Access the form values from the state variables
     console.log('Name:', name);
@@ -24,15 +29,18 @@ Signup= () => {
       number,
       password
     };
-
-    try {
-      const response = await fetch('/apoo/signup', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(formData)
-      });
+try{
+    const numericParam = Number(number);
+    const response = await fetch(`http://localhost:7000/apoo/Signup?param=${numericParam}`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        formData,
+      })
+    });
+    
 
       // Handle the response from the server
       if (response.ok) {
@@ -43,6 +51,7 @@ Signup= () => {
     } catch (error) {
       console.error('Error occurred while submitting form data:', error);
     }
+    navigate("/verifyOTP");
   };
 
   return (

@@ -10,7 +10,7 @@ const router = express.Router();
 userRouter.post('/signup',signup );
 userRouter.post('/verifyOTP',verifyOTP)
 userRouter.post('/login',login);
-userRouter.get('/sentOTP',sentOTP);
+userRouter.get('/sentOTP/:param',sentOTP);
 
 
 module.exports = userRouter;

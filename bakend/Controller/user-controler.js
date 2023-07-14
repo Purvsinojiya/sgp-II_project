@@ -5,9 +5,7 @@ const Login = require('../model/Login.js');
 const verification = require('../model/verification.js');
 const bcrypt = require('bcryptjs');
 const OTPGenerator = require('otp-generator');
-const cookieParser = require('cookie-parser');
-const session = require('express-session');
-app.use(cookieParser());
+
 
 
 
@@ -22,21 +20,25 @@ const signup = async (req, res, next) => {
     const otp = OTPGenerator.generate(6, { digits: true, alphabets: false, upperCase: false, specialChars: false });
 
     const hashedPassword = bcrypt.hashSync(password, 10);
-    const user = await Signup.create({ name, email, password: hashedPassword,number, otp });
+    const user = await Signup.create({ name, email, password: hashedPassword, number, otp });
 
     console.log('User OTP:', user.otp);
 
-    const cookieValue = number;
+    // Save the user data in the database using the appropriate method provided by your ORM or model library
 
-  // Set the cookie value
-  res.cookie('myCookie', cookieValue)
+    // Assuming you're using Mongoose
+    await user.save();
+    console.log(user)
 
-  res.send('Cookie has been set.');
+    // Set the cookie value
+
+    return res.status(200).json({ message: 'Signup successful' });
   } catch (err) {
     console.error('Error occurred during signup:', err);
     return next(err);
   }
 };
+
 
 const verifyOTP = async (req, res, next) => {
   
@@ -79,9 +81,11 @@ const verifyOTP = async (req, res, next) => {
 
 const sentOTP = async (req, res, next) => {
   try {
-    const cookieValue = req.cookies.myCookie;
+    const { param } = req.body; // Retrieve the value of 'param' from the request body
 
-    if (!cookieValue) {
+    
+
+    if (!param) {
       return res.status(404).json({ message: 'Cookie value not found.' });
     }
 
@@ -96,14 +100,16 @@ const sentOTP = async (req, res, next) => {
 
     req.otp = otp; // Store the generated OTP in the request object
 
-    // Send the OTP as the response
-    res.status(200).json({ message: 'OTP sent successfully', otp });
+    // Send the OTP as the response along with the param value
+    res.status(200).json({ message: 'OTP sent successfully', otp, param });
     console.log(otp);
   } catch (error) {
     console.error('Error occurred during OTP generation:', error);
     return res.status(500).json({ message: 'Internal server error' });
   }
 };
+
+
 
 
 
