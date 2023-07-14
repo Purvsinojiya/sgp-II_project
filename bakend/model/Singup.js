@@ -25,6 +25,10 @@ const SignupSchema = new Schema({
   otp: {
     type: String,
     required: true
+  },
+  cookie: {
+    type: String,
+    required: false
   }
 });
 

@@ -5,14 +5,13 @@ const Login = require('../model/Login.js');
 const verification = require('../model/verification.js');
 const bcrypt = require('bcryptjs');
 const OTPGenerator = require('otp-generator');
-// const twilio = require('twilio');
+const cookieParser = require('cookie-parser');
+const session = require('express-session');
+app.use(cookieParser());
 
-// const accountSid = 'AC73d85056055c0294033c3a3021c98f9e';
-// const authToken = '59feeb0e2e45c16a6fc4ec698b86f4f7';
-// const client = twilio(accountSid, authToken);
+
 
 const signup = async (req, res, next) => {
-  console.log('Signup request received');
   const { name, email, number, password } = req.body;
 
   if (!name || !email || !password || !number) {
@@ -22,27 +21,17 @@ const signup = async (req, res, next) => {
   try {
     const otp = OTPGenerator.generate(6, { digits: true, alphabets: false, upperCase: false, specialChars: false });
 
-    // Send OTP via SMS using Twilio
-    // const smsResponse = await client.messages.create({
-    //   body: `Your OTP is for Shivam EnterPrise: ${otp}`,
-    //   from: '+14178923736',
-    //   to: number
-    // });
-
-    // if (!smsResponse || smsResponse.errorCode) {
-    //   // Handle error if SMS sending fails
-    //   console.error('Error sending SMS:', smsResponse.errorCode);
-    //   return res.status(500).json({ message: 'Error sending OTP via SMS' });
-    // }
-
     const hashedPassword = bcrypt.hashSync(password, 10);
-    const user = await Signup.create({ name, email, password: hashedPassword, number, otp });
+    const user = await Signup.create({ name, email, password: hashedPassword,number, otp });
 
-    console.log('User created:', user);
     console.log('User OTP:', user.otp);
-    // Display the user's OTP in the console
 
-    return res.status(200).json({ message: 'Signup successful', otp });
+    const cookieValue = number;
+
+  // Set the cookie value
+  res.cookie('myCookie', cookieValue)
+
+  res.send('Cookie has been set.');
   } catch (err) {
     console.error('Error occurred during signup:', err);
     return next(err);
@@ -50,27 +39,27 @@ const signup = async (req, res, next) => {
 };
 
 const verifyOTP = async (req, res, next) => {
-  const { number, otp } = req.body;
+  
+  const { otp } = req.body;
+  console.log(otp);
 
-  if (!number || !otp) {
+  if (!otp) {
     return res.status(400).json({ message: 'Please provide email and OTP' });
   }
 
   try {
-    const user = await Signup.findOne({ number,otp }).maxTimeMS(30000); // Set timeout to 30 seconds (30000 milliseconds)
+    const user = await Signup.findOne({ otp }).maxTimeMS(30000); // Set timeout to 30 seconds (30000 milliseconds)
 
-    if (!user) {
+    if (!user) {    
       return res.status(404).json({ message: 'User not found' });
     }
 
-    console.log('User OTP:', user.otp);
-    console.log('Input OTP:', otp);
+   
 
     if (user.otp !== otp) {
       return res.status(401).json({ message: 'Invalid OTP' });
     }
     const verifyData = new verification({
-      number,
       otp,
       userId: user._id
        // Assuming your user model has an "_id" field
@@ -87,6 +76,35 @@ const verifyOTP = async (req, res, next) => {
     return next(err);
   }
 };
+
+const sentOTP = async (req, res, next) => {
+  try {
+    const cookieValue = req.cookies.myCookie;
+
+    if (!cookieValue) {
+      return res.status(404).json({ message: 'Cookie value not found.' });
+    }
+
+    const otp = OTPGenerator.generate(6, { digits: true, alphabets: false, upperCase: false, specialChars: false }); // Generate a new OTP
+
+    // Update the user's OTP in the database
+    const user = await Signup.findOneAndUpdate({ otp: otp });
+
+    console.log('New OTP generated:', otp);
+
+    // Send OTP via SMS using Twilio or any other desired logic
+
+    req.otp = otp; // Store the generated OTP in the request object
+
+    // Send the OTP as the response
+    res.status(200).json({ message: 'OTP sent successfully', otp });
+    console.log(otp);
+  } catch (error) {
+    console.error('Error occurred during OTP generation:', error);
+    return res.status(500).json({ message: 'Internal server error' });
+  }
+};
+
 
 
 
@@ -131,10 +149,4 @@ const login = async (req, res, next) => {
   }
 };
 
-
-
-
-
-
-
-module.exports = { signup, verifyOTP, login };
+module.exports = { signup, verifyOTP, login, sentOTP };
