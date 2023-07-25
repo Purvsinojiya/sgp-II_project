@@ -31,7 +31,6 @@ function OTPVerification() {
     } catch (error) {
       console.error('Error occurred while verifying OTP:', error);
     }
- 
   };
   const sendOTP = async () => {
     navigate("/sendOTP");
@@ -54,7 +53,6 @@ function OTPVerification() {
     } catch (error) {
       console.error('Error occurred while verifying OTP:', error);
     }
-   
   };
 
   
