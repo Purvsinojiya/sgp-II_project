@@ -39,7 +39,22 @@ const signup = async (req, res, next) => {
     return next(err);
   }
 };
+const Products = async(req, res, next) => {
+  const productId = req.params.id;
 
+  try {
+    const product = await Product.findById(productId);
+
+    if (!product) {
+      return res.status(404).json({ message: 'Product not found' });
+    }
+
+    return res.json(product);
+  } catch (err) {
+    console.error('Error fetching product:', err);
+    return res.status(500).json({ error: 'Error fetching product' });
+  }
+};
 const getAllMovies = async (req, res, next) => {
   try {
     // Fetch all movies from the database
@@ -166,4 +181,4 @@ const login = async (req, res, next) => {
 };
 
 
-module.exports = { signup, verifyOTP, login, sentOTP,getAllMovies};
+module.exports = { signup, verifyOTP, login, sentOTP,getAllMovies,Products };

@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import { Link } from 'react-router-dom';
 
 function Home() {
   const [movies, setMovies] = useState([]);
@@ -16,12 +17,14 @@ function Home() {
       <h1>Home Page</h1>
       <div>
         {movies.map((movie) => (
-          <div key={movie._id} className="movie-card">
-            <img src={movie.imageUrl} alt={movie.title} />
-            <h2>{movie.productName}</h2>
-            <p>Price: ${movie.productPrice}</p>
-            <p>Description: {movie.productDescription}</p>
-          </div>
+          <Link to={`/${movie._id}`} key={movie._id} className="movie-card">
+            <div>
+              <img src={movie.imageUrl} alt={movie.title} />
+              <h2>{movie.title}</h2>
+              <p>Price: ${movie.price}</p>
+              <p>Description: {movie.description}</p>
+            </div>
+          </Link>
         ))}
       </div>
     </div>

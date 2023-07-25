@@ -1,6 +1,6 @@
 const express = require('express');
 const userRouter = express.Router();
-const { signup,verifyOTP,login,sentOTP, getAllMovies} = require("../Controller/user-controler")
+const { signup,verifyOTP,login,sentOTP, getAllMovies, Products} = require("../Controller/user-controler")
 const Signup = require('../model/Singup.js');
 
 
@@ -12,6 +12,7 @@ userRouter.post('/verifyOTP',verifyOTP)
 userRouter.post('/login',login);
 userRouter.get('/sentOTP/:param',sentOTP);
 userRouter.get('/home',getAllMovies)
+userRouter.get('/home/:id',Products)
 
 
 module.exports = userRouter;
