@@ -5,6 +5,7 @@ const Login = require('../model/Login.js');
 const verification = require('../model/verification.js');
 const bcrypt = require('bcryptjs');
 const OTPGenerator = require('otp-generator');
+const Product = require('../model/Product.js');
 
 
 
@@ -35,6 +36,24 @@ const signup = async (req, res, next) => {
     return res.status(200).json({ message: 'Signup successful' });
   } catch (err) {
     console.error('Error occurred during signup:', err);
+    return next(err);
+  }
+};
+
+const getAllMovies = async (req, res, next) => {
+  try {
+    // Fetch all movies from the database
+    const movies = await Product.find({});
+
+    // If no movies are found, respond with an empty array
+    if (!movies || movies.length === 0) {
+      return res.json([]);
+    }
+
+    // If movies are found, respond with the array of movies
+    return res.json(movies);
+  } catch (err) {
+    console.error('Error occurred while fetching movies:', err);
     return next(err);
   }
 };
@@ -80,15 +99,7 @@ const verifyOTP = async (req, res, next) => {
 };
 
 const sentOTP = async (req, res, next) => {
-  try {
-    const { param } = req.body; // Retrieve the value of 'param' from the request body
-
-    
-
-    if (!param) {
-      return res.status(404).json({ message: 'Cookie value not found.' });
-    }
-
+  
     const otp = OTPGenerator.generate(6, { digits: true, alphabets: false, upperCase: false, specialChars: false }); // Generate a new OTP
 
     // Update the user's OTP in the database
@@ -103,11 +114,10 @@ const sentOTP = async (req, res, next) => {
     // Send the OTP as the response along with the param value
     res.status(200).json({ message: 'OTP sent successfully', otp, param });
     console.log(otp);
-  } catch (error) {
-    console.error('Error occurred during OTP generation:', error);
     return res.status(500).json({ message: 'Internal server error' });
-  }
-};
+  
+  } 
+    
 
 
 
@@ -155,4 +165,5 @@ const login = async (req, res, next) => {
   }
 };
 
-module.exports = { signup, verifyOTP, login, sentOTP };
+
+module.exports = { signup, verifyOTP, login, sentOTP,getAllMovies};
