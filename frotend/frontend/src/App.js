@@ -6,6 +6,7 @@ import Login from "./compontents/Login";
 import Verifyotp  from "./compontents/verifyOtp";
 import ResendOTP from "./compontents/resendOTP";
 import ProductDetail from './compontents/ProductDetail';
+import Addproduct from './compontents/addproduct';
 function App() {
   return (
     <Router>
@@ -17,6 +18,7 @@ function App() {
           <Route path="/Login" element={<Login />} />
           <Route path="/verifyOTP" element={<Verifyotp/>} />
           <Route path="/sendOTP" element={<ResendOTP/>} />
+          <Route path="/addProduct" element={<Addproduct/>} />
         </Routes>
       </div>
     </Router>
