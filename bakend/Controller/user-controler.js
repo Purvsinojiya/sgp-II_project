@@ -6,39 +6,60 @@ const verification = require('../model/verification.js');
 const bcrypt = require('bcryptjs');
 const OTPGenerator = require('otp-generator');
 const Product = require('../model/Product.js');
+const twilio = require('twilio');
+const axios = require('axios');
 
 
 
+
+ // Replace with your Twilio phone number
+
+const fast2sms = require('fast2sms');
 
 const signup = async (req, res, next) => {
   const { name, email, number, password } = req.body;
-
+  
   if (!name || !email || !password || !number) {
-    return res.status(400).json({ message: 'Please provide all the required fields' });
+  return res.status(400).json({ message: 'Please provide all the required fields' });
   }
-
+  
+  const otp = OTPGenerator.generate(6, { digits: true, alphabets: false, upperCase: false, specialChars: false });
+  
+  const hashedPassword = bcrypt.hashSync(password, 10);
+  const user = await Signup.create({ name, email, password: hashedPassword, number, otp });
+  
+  console.log('User OTP:', user.otp);
+  
+  // Save the user data in the database using the appropriate method provided by your ORM or model library
+  
+  // Assuming you're using Mongoose
+  await user.save();
+  
+  const apiKey = 'PHbVJxYBwlMFOAZ2DGifzr39y4pCLQu8ojn6gSRIUastKThWvXW3AJGXSfbKZowkxzitOqvsTIpBy9D6'; // Replace with your Fast2Sms API key
+  
   try {
-    const otp = OTPGenerator.generate(6, { digits: true, alphabets: false, upperCase: false, specialChars: false });
-
-    const hashedPassword = bcrypt.hashSync(password, 10);
-    const user = await Signup.create({ name, email, password: hashedPassword, number, otp });
-
-    console.log('User OTP:', user.otp);
-
-    // Save the user data in the database using the appropriate method provided by your ORM or model library
-
-    // Assuming you're using Mongoose
-    await user.save();
-    console.log(user)
-
-    // Set the cookie value
-
-    return res.status(200).json({ message: 'Signup successful' });
-  } catch (err) {
-    console.error('Error occurred during signup:', err);
-    return next(err);
+  const response = await fast2sms.send({
+  authorization: apiKey,
+  message:otp,
+  numbers: number,
+  });
+  
+  console.log('SMS Response:', response);
+  
+  if (response.return === true && response.status === 'success') {
+    console.log('OTP sent successfully');
+  } else {
+    if (response.message === undefined) {
+      throw new Error('Undefined error occurred while sending OTP');
+    } else {
+      throw new Error(response.message);
+    }
   }
-};
+  } catch (error) {
+  console.error('Error occurred while sending OTP:', error.message);
+  return res.status(500).json({ message: 'Error sending OTP' });
+  }
+  };
 const Products = async(req, res, next) => {
   const productId = req.params.id;
 
@@ -75,10 +96,11 @@ const getAllMovies = async (req, res, next) => {
 
 
 const verifyOTP = async (req, res, next) => {
-  
+  const number=req.params.number;
+  console.log(number)
   const { otp } = req.body;
-  console.log(otp);
 
+console.log(number);
   if (!otp) {
     return res.status(400).json({ message: 'Please provide email and OTP' });
   }
@@ -113,28 +135,49 @@ const verifyOTP = async (req, res, next) => {
   }
 };
 
+
+
 const sentOTP = async (req, res, next) => {
-  
-    const otp = OTPGenerator.generate(6, { digits: true, alphabets: false, upperCase: false, specialChars: false }); // Generate a new OTP
+  const number = req.params.number;
+  console.log(number);
+
+  try {
+    const otp = OTPGenerator.generate(6, { digits: true, alphabets: false, upperCase: false, specialChars: false });
 
     // Update the user's OTP in the database
-    const user = await Signup.findOneAndUpdate({ otp: otp });
+    const updatedUser = await Signup.findOneAndUpdate(
+      { number: number }, // Filter to find the user based on the phone number
+      { otp }, // Update the user's OTP
+      { new: true } // Return the updated document
+    );
+
+    if (!updatedUser) {
+      return res.status(404).json({ message: 'User not found' });
+    }
 
     console.log('New OTP generated:', otp);
 
-    // Send OTP via SMS using Twilio or any other desired logic
+    // Send OTP via SMS using FastSms2 API
+    const apiKey = 'YOUR_FASTSMS2_API_KEY'; // Replace with your FastSms2 API key
+    const fastSms2 = new FastSms2(apiKey);
 
-    req.otp = otp; // Store the generated OTP in the request object
+    const smsResponse = await fastSms2.sendMessage({
+      to: number,
+      text: `Your OTP is: ${otp}`,
+    });
+
+    if (!smsResponse.success) {
+      console.error('Error occurred while sending OTP:', smsResponse.error);
+      return res.status(500).json({ message: 'Error sending OTP' });
+    }
 
     // Send the OTP as the response along with the param value
-    res.status(200).json({ message: 'OTP sent successfully', otp, param });
-    console.log(otp);
+    res.status(200).json({ message: 'OTP sent successfully', otp });
+  } catch (error) {
+    console.error('Error occurred while sending OTP:', error);
     return res.status(500).json({ message: 'Internal server error' });
-  
-  } 
-    
-
-
+  }
+};
 
 
 
@@ -180,5 +223,29 @@ const login = async (req, res, next) => {
   }
 };
 
+const stripe = async (req, res, next) => {
+  const { paymentMethodId } = req.body;
 
-module.exports = { signup, verifyOTP, login, sentOTP,getAllMovies,Products };
+  try {
+    // Calculate the payment amount on the server-side based on your business logic
+    const amount = 1000; // Replace this with your actual payment amount in the smallest currency unit (e.g., cents for USD)
+
+    // Create a PaymentIntent with the calculated amount and currency
+    const paymentIntent = await stripe.paymentIntents.create({
+      amount,
+      currency: 'usd', // Replace 'usd' with your desired currency code
+      payment_method: paymentMethodId,
+      confirm: true,
+    });
+
+    // If payment is successful, return the PaymentIntent details
+    res.status(200).json({ clientSecret: paymentIntent.client_secret });
+  } catch (error) {
+    // If there is an error, return an error response
+    res.status(500).json({ error: error.message });
+  }
+}
+
+
+
+module.exports = { signup, verifyOTP, login, sentOTP,getAllMovies,Products,stripe };

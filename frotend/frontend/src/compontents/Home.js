@@ -13,16 +13,17 @@ function Home() {
   }, []);
 
   return (
-    <div>
-      <h1>Home Page</h1>
-      <div>
+    <div className="container mx-auto mt-10">
+      <h1 className="text-3xl font-bold mb-5">Home Page</h1>
+    
+      <div className="grid gap-4 grid-cols-2">
         {movies.map((movie) => (
           <Link to={`/${movie._id}`} key={movie._id} className="movie-card">
-            <div>
-              <img src={movie.imageUrl} alt={movie.title} />
-              <h2>{movie.title}</h2>
-              <p>Price: ${movie.price}</p>
-              <p>Description: {movie.description}</p>
+            <div className="shadow-md p-4 rounded-lg border border-gray-200">
+              <img src={movie.imageUrl} alt={movie.title} className="w-full h-40 object-cover mb-2 rounded-lg" />
+              <h2 className="text-lg font-semibold">{movie.title}</h2>
+              <p className="text-gray-600">Price: ${movie.price}</p>
+              <p className="text-gray-600">Description: {movie.description}</p>
             </div>
           </Link>
         ))}

@@ -4,6 +4,7 @@ const Routes = require('./Routes/User_Routes');
 const adminRouter = require('./Routes/addmin_Routes');
 const cors = require('cors');
 const cookieParser = require('cookie-parser');
+const stripe = require('stripe')("pk_test_51Mr40CSGOCO7N9QbWHuiSH230rivS6toAxku1IphldfrfPjSaO3eWfsvPmw3fLfUj0RYB83bqepZTCSwZW2YwLrJ003EcQgrU3");
 app.use(cookieParser());
 app.use(cors()); 
 

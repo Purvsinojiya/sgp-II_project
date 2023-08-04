@@ -1,10 +1,11 @@
 import React, { useState } from 'react';
-import { useNavigate } from "react-router-dom";
+import { useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
+import { v4 as uuidv4 } from 'uuid';
 
 
 
-const 
-Signup= () => {
+const Signup = () => {
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [number, setNumber] = useState('');
@@ -13,51 +14,58 @@ Signup= () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    
 
     // Access the form values from the state variables
     console.log('Name:', name);
     console.log('Email:', email);
     console.log('Number:', number);
     console.log('Password:', password);
-    alert('Submitted');
+   
 
+    alert('Submitted');
+    const userId = uuidv4();
     // Add your logic to send the form data to the backend
     const formData = {
       name,
       email,
       number,
-      password
+      password,
+      _id: userId
     };
-try{
-    const numericParam = Number(number);
-    const response = await fetch(`http://localhost:7000/apoo/Signup?param=${numericParam}`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({
-        formData,
-      })
-    });
-    
+  
+    console.log(formData._id)
+    try {
+      const response = await fetch('http://localhost:7000/apoo/Signup', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(formData)
+      });
 
       // Handle the response from the server
       if (response.ok) {
         console.log('Form data successfully submitted');
+        // After successful form submission, navigate to the desired page
+     // Replace with your actual code to retrieve the id
+
+       
+          // If id is available, navigate to the /verifyOTP route with the id parameter
+          navigate(`/verifyOTP/${number}`);
+        
       } else {
         console.error('Failed to submit form data');
       }
     } catch (error) {
       console.error('Error occurred while submitting form data:', error);
     }
-    navigate("/verifyOTP");
   };
 
   return (
     <div className="App">
       <h1>Signup Form</h1>
       <form onSubmit={handleSubmit}>
+        {/* Form fields */}
         <label htmlFor="name">Name:</label>
         <input
           type="text"
@@ -98,8 +106,14 @@ try{
           required
         /><br />
 
+        {/* Use a regular submit button for form submission */}
         <button type="submit">Signup</button>
       </form>
+
+      {/* The Link component for navigation */}
+      <Link to={`/verifyOTP/${number}`} className="movie-card">
+        Submit
+      </Link>
     </div>
   );
 };

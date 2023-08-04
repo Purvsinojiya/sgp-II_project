@@ -12,8 +12,8 @@ function OTPVerification() {
         };
     
         try {
-          const response = await fetch('http://localhost:7000/apoo/verifyOTP', {
-            method: 'POST',
+          const response = await fetch('http://localhost:7000/apoo/sentOTP', {
+            method: 'GET',
             headers: {
               'Content-Type': 'application/json'
             },
