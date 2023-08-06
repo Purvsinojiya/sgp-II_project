@@ -8,6 +8,8 @@ const OTPGenerator = require('otp-generator');
 const Product = require('../model/Product.js');
 const twilio = require('twilio');
 const axios = require('axios');
+const stripeSecretKey = 'sk_test_51Mr40CSGOCO7N9Qbb26Bhmc4fNAWLnXUBMbLXeX9jjGeYhkYXs0Quu5LjTBrkt7JoiV4i0OHc2FZ728lVIvQel1S00ibqRvTzv'; // Replace with your actual Stripe secret key
+const stripe = require('stripe')(stripeSecretKey);
 
 
 
@@ -223,29 +225,26 @@ const login = async (req, res, next) => {
   }
 };
 
-const stripe = async (req, res, next) => {
+const stripes = async (req, res, next) => {
   const { paymentMethodId } = req.body;
 
   try {
-    // Calculate the payment amount on the server-side based on your business logic
-    const amount = 1000; // Replace this with your actual payment amount in the smallest currency unit (e.g., cents for USD)
-
-    // Create a PaymentIntent with the calculated amount and currency
+    // Create a payment intent using the payment method ID
     const paymentIntent = await stripe.paymentIntents.create({
-      amount,
-      currency: 'usd', // Replace 'usd' with your desired currency code
       payment_method: paymentMethodId,
+      amount: 1000, // Replace with the actual amount to charge (in cents or smallest currency unit)
+      currency: 'usd', // Replace with your preferred currency
       confirm: true,
     });
 
-    // If payment is successful, return the PaymentIntent details
-    res.status(200).json({ clientSecret: paymentIntent.client_secret });
+    // Handle successful payment or error responses
+    // You can customize the response as needed
+    res.status(200).json({ message: 'Payment completed successfully!' });
   } catch (error) {
-    // If there is an error, return an error response
     res.status(500).json({ error: error.message });
   }
-}
+};
 
 
 
-module.exports = { signup, verifyOTP, login, sentOTP,getAllMovies,Products,stripe };
+module.exports = { signup, verifyOTP, login, sentOTP,getAllMovies,Products,stripes };

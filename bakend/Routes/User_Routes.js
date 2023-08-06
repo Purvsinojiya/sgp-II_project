@@ -1,6 +1,6 @@
 const express = require('express');
 const userRouter = express.Router();
-const { signup,verifyOTP,login,sentOTP, getAllMovies, Products,stripe} = require("../Controller/user-controler")
+const { signup,verifyOTP,login,sentOTP, getAllMovies, Products,stripes} = require("../Controller/user-controler")
 const Signup = require('../model/Singup.js');
 
 
@@ -11,7 +11,7 @@ userRouter.post('/Signup',signup );
 
 userRouter.post('/verifyOTP/:number',verifyOTP)
 userRouter.post('/login',login);
-userRouter.post('/payment',stripe);
+userRouter.post('/payment',stripes);
 userRouter.post('/sentOTP/:number',sentOTP);
 userRouter.get('/home',getAllMovies)
 userRouter.get('/home/:id',Products)

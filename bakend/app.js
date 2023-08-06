@@ -4,7 +4,9 @@ const Routes = require('./Routes/User_Routes');
 const adminRouter = require('./Routes/addmin_Routes');
 const cors = require('cors');
 const cookieParser = require('cookie-parser');
-const stripe = require('stripe')("pk_test_51Mr40CSGOCO7N9QbWHuiSH230rivS6toAxku1IphldfrfPjSaO3eWfsvPmw3fLfUj0RYB83bqepZTCSwZW2YwLrJ003EcQgrU3");
+const stripeSecretKey = 'sk_test_51Mr40CSGOCO7N9Qbb26Bhmc4fNAWLnXUBMbLXeX9jjGeYhkYXs0Quu5LjTBrkt7JoiV4i0OHc2FZ728lVIvQel1S00ibqRvTzv'; // Replace with your actual Stripe secret key
+const stripe = require('stripe')(stripeSecretKey);
+
 app.use(cookieParser());
 app.use(cors()); 
 
