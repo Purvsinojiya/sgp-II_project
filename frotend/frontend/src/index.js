@@ -3,13 +3,15 @@ import { createRoot } from 'react-dom/client';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 import './index.css';
-import { CartProvider } from './compontents/CartContext';// Adjust the file path if needed
+import { CartProvider } from './compontents/CartContext';
+import {Provider} from 'react-redux'
+// Adjust the file path if needed
 
 const root = createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
     <CartProvider>
-      <App />
+    <App />
     </CartProvider>
   </React.StrictMode>
 );

@@ -1,49 +1,63 @@
-import React, { useState } from 'react';
-
+import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 function Login() {
   const [number, setNumber] = useState('');
   const [password, setPassword] = useState('');
-
- 
+  const [redirectTo, setRedirectTo] = useState(null);
+  const [error, setError] = useState(null);
+  const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
     // Access the form values from the state variables
-   
-    console.log('Number:', number);
-    console.log('Password:', password);
-    alert('Submitted');
-
-    // Add your logic to send the form data to the backend
     const formData = {
       number,
-      password
+      password,
     };
 
     try {
       const response = await fetch('http://localhost:7000/apoo/login', {
         method: 'POST',
         headers: {
-          'Content-Type': 'application/json'
+          'Content-Type': 'application/json',
         },
-        body: JSON.stringify(formData)
+        body: JSON.stringify(formData),
       });
 
-      // Handle the response from the server
-      if (response.ok) {
-        console.log('Form data successfully submitted');
+      if (response.status === 200) {
+        const data = await response.json();
+
+        if (data.redirectTo) {
+          // Set the redirection URL in state
+          setRedirectTo(data.redirectTo);
+        } else {
+          console.log('Form data successfully submitted');
+        }
       } else {
-        console.error('Failed to submit form data');
+        if (response.ok) {
+          console.log('Form data successfully submitted');
+          navigate(`/`);
+        }
       }
     } catch (error) {
       console.error('Error occurred while submitting form data:', error);
+      setError('An error occurred. Please try again later.');
     }
   };
+
+  // Use useEffect to perform the redirection when redirectTo changes
+  useEffect(() => {
+    if (redirectTo) {
+      // Redirect to the specified URL
+      window.location.href = redirectTo;
+    }
+  }, [redirectTo]);
 
   return (
     <div>
       <h2>Login</h2>
+      {error && <p className="error-message">{error}</p>}
       <form onSubmit={handleSubmit}>
         <div>
           <label htmlFor="number">Number:</label>

@@ -10,13 +10,15 @@ const twilio = require('twilio');
 const axios = require('axios');
 const stripeSecretKey = 'sk_test_51Mr40CSGOCO7N9Qbb26Bhmc4fNAWLnXUBMbLXeX9jjGeYhkYXs0Quu5LjTBrkt7JoiV4i0OHc2FZ728lVIvQel1S00ibqRvTzv'; // Replace with your actual Stripe secret key
 const stripe = require('stripe')(stripeSecretKey);
-
+const jwt = require('jsonwebtoken'); 
+const jwtKey="jwt";
 
 
 
  // Replace with your Twilio phone number
 
 const fast2sms = require('fast2sms');
+const { Types } = require('mongoose');
 
 const signup = async (req, res, next) => {
   const { name, email, number, password } = req.body;
@@ -180,51 +182,87 @@ const sentOTP = async (req, res, next) => {
     return res.status(500).json({ message: 'Internal server error' });
   }
 };
+ // Import the jsonwebtoken library
 
-
-
-
-const login = async (req, res, next) => {
+ const login = async (req, res, next) => {
+  const jwtSecret = "your"; // Replace with your own secret key
   console.log('Login request received');
-  const { number, password } = req.body;
+  const { number, password } = req.body; // Assuming "name" is used for username
 
   if (!number || !password) {
-    return res.status(400).json({ message: 'Please provide the phone number and password' });
+    return res.status(400).json({ message: 'Please provide the name and password' });
   }
 
   try {
-    // Find the user based on the provided phone number
+    if (number === '9925437458' && password === 'purv123') {
+      // If number and password match, consider it an admin login
+      // Send a JSON response with the redirection URL
+      return res.status(200).json({ redirectTo: '/admin-dashboard' }); // Change '/admin-dashboard' to your actual admin dashboard route
+    }
+
+    // If the name and password do not match admin credentials, continue with regular user login
     const user = await Signup.findOne({ number }, '-otp'); // Exclude the otp field from the query
 
     if (!user) {
       return res.status(404).json({ message: 'User not found' });
     }
 
-    // Compare the provided password with the hashed password stored in the database
     const isPasswordMatch = await bcrypt.compare(password, user.password);
 
     if (!isPasswordMatch) {
       return res.status(401).json({ message: 'Invalid password' });
     }
 
-    // Password is correct, proceed with further logic (e.g., generate token, login user, etc.)
-    
-    // Store the login details in the Login model
+  
+
     const loginData = new Login({
       number,
-      password,
-      userId: user._id // Assuming your user model has an "_id" field
+      password, // Do not store the plain password; this is for demonstration purposes only
+      userId: user._id,
     });
 
     await loginData.save();
 
-    return res.status(200).json({ message: 'Login successful' });
+    // Send the token in the JSON response to the frontend for regular users
+    return res.status(201).json({message: 'Payment completed successfully!' });
   } catch (err) {
     console.error('Error occurred during login:', err);
     return next(err);
   }
 };
 
+  function verificationToken(req, res, next) {
+    const beartoken = req.headers['authorization'];
+
+    if (typeof beartoken !== 'undefined') {
+        const bearer = beartoken.split(' ');
+        req.token = bearer[1];
+
+        jwt.verify(req.token,"token", (err, authData) => {
+            if (err) {
+                console.log('Token:', req.token); // Print the token
+                res.sendStatus(403); // Return a forbidden status
+            } else {
+                // Store the token in a server-side variable or session if needed
+                // For example, store the verified data
+              console.log('Token:');
+                next();
+            }
+        });
+    } else {
+        res.sendStatus(401); // Return an unauthorized status
+    }
+}
+
+
+// Middleware function to verify the user's r
+
+
+
+
+const verifylogin = async (req, res) => {
+  res.send("hi");
+}
 const stripes = async (req, res, next) => {
   const { paymentMethodId } = req.body;
 
@@ -247,4 +285,4 @@ const stripes = async (req, res, next) => {
 
 
 
-module.exports = { signup, verifyOTP, login, sentOTP,getAllMovies,Products,stripes };
+module.exports = { signup, verifyOTP, login, sentOTP,getAllMovies,Products,stripes,verifylogin,verificationToken};

@@ -1,4 +1,4 @@
-import React from 'react';
+import React,{useEffect} from 'react';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import Signup from "./compontents/Signup";
 import Home from "./compontents/Home";
@@ -12,9 +12,18 @@ import Checkout from './compontents/Checkout';
 import Payment from './compontents/Payment';
 import { Elements } from '@stripe/react-stripe-js';
 import { loadStripe } from '@stripe/stripe-js';
+import axios from 'axios';
+import Dashboard from './compontents/Dashboard';
 
 
 function App() {
+  useEffect(() => {
+    const token = localStorage.getItem('AuthToken');
+    if (token) {
+      axios.defaults.headers.common['Authorization'] = `Bearer ${token}`; // Set the token as default header
+    }
+  }, []);
+
   return (
     <>
       <Router>
@@ -31,6 +40,7 @@ function App() {
             <Route path="/checkout" element={<Checkout />} />
             <Route path="/cart" element={<Cart />} />
             <Route path="/payment" element={<Payment/>} />
+            <Route path="/admin-dashboard" element={<Dashboard/>} />
           </Routes>
         </div>
       </Router>

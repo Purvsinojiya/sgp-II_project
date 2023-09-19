@@ -6,4 +6,5 @@ const adminRouter = express.Router();
 
 adminRouter.post('/addProduct',addProduct);
 
+
 module.exports = adminRouter;
