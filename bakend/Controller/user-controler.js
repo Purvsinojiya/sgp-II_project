@@ -11,6 +11,7 @@ const axios = require('axios');
 const stripeSecretKey = 'sk_test_51Mr40CSGOCO7N9Qbb26Bhmc4fNAWLnXUBMbLXeX9jjGeYhkYXs0Quu5LjTBrkt7JoiV4i0OHc2FZ728lVIvQel1S00ibqRvTzv'; // Replace with your actual Stripe secret key
 const stripe = require('stripe')(stripeSecretKey);
 const jwt = require('jsonwebtoken'); 
+const Addresh =require('../model/Addresh')
 const jwtKey="jwt";
 
 
@@ -64,6 +65,19 @@ const signup = async (req, res, next) => {
   return res.status(500).json({ message: 'Error sending OTP' });
   }
   };
+  const Addres = async (req, res, next) => {
+    const { country, state, city, streetAddress, pincode } = req.body;
+
+  // Perform validation if necessary
+  if (!country || !state || !city || !streetAddress || !pincode) {
+    return res.status(400).json({ error: 'All fields are required' });
+  }
+  const user = await Addresh.create({ country,state,city,streetAddress,pincode});
+ await user.save();
+ return res.status(200).json({ message: 'successful' });
+  // Save the address data to the in-memory storage (you should use a database)
+  
+  }
 const Products = async(req, res, next) => {
   const productId = req.params.id;
 
@@ -285,4 +299,4 @@ const stripes = async (req, res, next) => {
 
 
 
-module.exports = { signup, verifyOTP, login, sentOTP,getAllMovies,Products,stripes,verifylogin,verificationToken};
+module.exports = { signup, verifyOTP, login, sentOTP,getAllMovies,Products,stripes,verifylogin,verificationToken,Addres};

@@ -14,6 +14,7 @@ import { Elements } from '@stripe/react-stripe-js';
 import { loadStripe } from '@stripe/stripe-js';
 import axios from 'axios';
 import Dashboard from './compontents/Dashboard';
+import Products from "./compontents/products"
 
 
 function App() {
@@ -30,7 +31,7 @@ function App() {
         <div>
           <Routes>
             <Route path="/" element={<Home />} />
-            <Route path="/:id" element={<ProductDetail />} />
+            <Route path="/:id" element={<Products />} />
             <Route path="/Signup" element={<Signup />} />
             <Route path="/Login" element={<Login />} />
             <Route path="/verifyOTP/:number" element={<Verifyotp />} />
