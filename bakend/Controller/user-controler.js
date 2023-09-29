@@ -13,6 +13,8 @@ const stripe = require('stripe')(stripeSecretKey);
 const jwt = require('jsonwebtoken'); 
 const Addresh =require('../model/Addresh')
 const jwtKey="jwt";
+const Order = require('../model/order')
+const Profiles = require('../model/profile.js');
 
 
 
@@ -23,47 +25,45 @@ const { Types } = require('mongoose');
 
 const signup = async (req, res, next) => {
   const { name, email, number, password } = req.body;
-  
+    console.log("fjfjfjfj");
   if (!name || !email || !password || !number) {
   return res.status(400).json({ message: 'Please provide all the required fields' });
   }
   
-  const otp = OTPGenerator.generate(6, { digits: true, alphabets: false, upperCase: false, specialChars: false });
+
+  const user = await Signup.create({ name, email, password, number});
   
-  const hashedPassword = bcrypt.hashSync(password, 10);
-  const user = await Signup.create({ name, email, password: hashedPassword, number, otp });
   
-  console.log('User OTP:', user.otp);
   
   // Save the user data in the database using the appropriate method provided by your ORM or model library
   
   // Assuming you're using Mongoose
   await user.save();
   
-  const apiKey = 'PHbVJxYBwlMFOAZ2DGifzr39y4pCLQu8ojn6gSRIUastKThWvXW3AJGXSfbKZowkxzitOqvsTIpBy9D6'; // Replace with your Fast2Sms API key
+  return res.status(200).json({ message: 'successful signup' });
+  };
+  const buy = async (req, res, next) => {
+    const { productName } = req.params;
+    const { purchasedQuantity } = req.body;
   
-  try {
-  const response = await fast2sms.send({
-  authorization: apiKey,
-  message:otp,
-  numbers: number,
-  });
+    try {
+      const stockEntry = await Stock.findOne({ productName });
   
-  console.log('SMS Response:', response);
+      if (!stockEntry) {
+        return res.status(404).json({ message: `${productName} not found in stock` });
+      }
   
-  if (response.return === true && response.status === 'success') {
-    console.log('OTP sent successfully');
-  } else {
-    if (response.message === undefined) {
-      throw new Error('Undefined error occurred while sending OTP');
-    } else {
-      throw new Error(response.message);
+      if (stockEntry.currentStock < purchasedQuantity) {
+        return res.status(400).json({ message: 'Insufficient stock' });
+      }
+  
+      stockEntry.currentStock -= purchasedQuantity;
+      await stockEntry.save();
+      res.json(stockEntry);
+    } catch (error) {
+      console.error("Error updating stock:", error);
+      res.status(500).json({ message: 'Error updating stock', error });
     }
-  }
-  } catch (error) {
-  console.error('Error occurred while sending OTP:', error.message);
-  return res.status(500).json({ message: 'Error sending OTP' });
-  }
   };
   const Addres = async (req, res, next) => {
     const { country, state, city, streetAddress, pincode } = req.body;
@@ -111,7 +111,32 @@ const getAllMovies = async (req, res, next) => {
     return next(err);
   }
 };
-
+const order = async (req, res, next) => {
+    try {
+      const {user,product, quantity,totalAmount, orderDate } = req.body;
+      const order = new Order({
+        user,
+        product,
+        quantity,
+        totalAmount,
+        orderDate,
+      });
+  
+      // Save the order to the database
+      await order.save();
+  
+      res.status(201).json(order);
+    } catch (err) {
+      console.error('Error creating order:', err);
+      res.status(500).json({ error: err.message });
+    }
+  };
+  
+ 
+  
+  
+  
+  
 
 const verifyOTP = async (req, res, next) => {
   const number=req.params.number;
@@ -266,11 +291,44 @@ const sentOTP = async (req, res, next) => {
     } else {
         res.sendStatus(401); // Return an unauthorized status
     }
-}
+  }
+  const Profile = async (req, res) => {
+  try {
+    const profileData = req.body;
+    const profile = new Profiles(profileData);
+    await profile.save();
+    res.status(201).json(profile);
+  } catch (error) {
+    res.status(400).json({ error: error.message });
+  }
+};
+
+const updateProfileByUserId = async (req, res) => {
+  try {
+    const userId = req.params.userId;
+    const updates = req.body;
+
+    // Use findByIdAndUpdate to find the profile by user ID and update it
+    const updatedProfile = await Profiles.findByIdAndUpdate(userId, updates, {
+      new: true, // To return the updated product
+      runValidators: true, // To run model validation on the updated data
+    });
 
 
-// Middleware function to verify the user's r
 
+    if (!updatedProfile) {
+      // If the profile is not found, return a 404 response
+      return res.status(404).json({ error: 'Profile not found' });
+    }
+
+    // Return the updated profile in the response
+    res.json(updatedProfile);
+  } catch (error) {
+    // Handle any errors that may occur during the update process
+    console.error(error);
+    res.status(500).json({ error: 'Internal server error' });
+  }
+};
 
 
 
@@ -299,4 +357,5 @@ const stripes = async (req, res, next) => {
 
 
 
-module.exports = { signup, verifyOTP, login, sentOTP,getAllMovies,Products,stripes,verifylogin,verificationToken,Addres};
+module.exports = { signup, verifyOTP,login, sentOTP,getAllMovies,Products,stripes,verifylogin,verificationToken,Addres,order,Profile,buy,updateProfileByUserId
+};

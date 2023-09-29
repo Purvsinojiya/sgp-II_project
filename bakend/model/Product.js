@@ -20,6 +20,14 @@ const ProductSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
+  sellerplace: {
+    type: String,
+    required: true,
+  },
+  Queinty: {
+    type: Number,
+    required: true,
+  },
 });
 
 // Create the Product model

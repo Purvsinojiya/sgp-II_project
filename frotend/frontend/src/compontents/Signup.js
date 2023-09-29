@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Link } from 'react-router-dom';
 import { v4 as uuidv4 } from 'uuid';
+import logo from "./download.jpeg";
 
 
 
@@ -62,59 +63,62 @@ const Signup = () => {
   };
 
   return (
-    <div className="App">
-      <h1>Signup Form</h1>
-      <form onSubmit={handleSubmit}>
-        {/* Form fields */}
-        <label htmlFor="name">Name:</label>
+    <div className="bg-orange-400 min-h-screen flex items-center justify-center font-normal font-['Battambang'] text-black">
+    <div className="bg-pink-50 w-[1100px] h-[503px] rounded-2xl relative grid-cols-2 md:w-1/2 md:px-16">
+      <h2 className="left-[120px] top-[30px] absolute text-stone-900 text-[30px]">
+        Create a new account
+      </h2>
+
+      <div className="rounded-2xl absolute flex flex-col left-[130px] top-[100px] flex-wrap p-px">
         <input
+          className="p-3"
           type="text"
+          placeholder="Full name"
           id="name"
-          name="name"
           value={name}
           onChange={(e) => setName(e.target.value)}
-          required
-        /><br />
+        />
 
-        <label htmlFor="email">Email:</label>
         <input
           type="email"
+          placeholder="Email"
           id="email"
-          name="email"
           value={email}
           onChange={(e) => setEmail(e.target.value)}
-          required
-        /><br />
+          className="mt-5 p-3"
+        />
 
-        <label htmlFor="number">Number:</label>
         <input
-          type="text"
-          id="number"
-          name="number"
+          type="number"
+          placeholder="Phone no"
+          id="phone"
           value={number}
           onChange={(e) => setNumber(e.target.value)}
-          required
-        /><br />
+          className="mt-5 p-3"
+        />
 
-        <label htmlFor="password">Password:</label>
         <input
           type="password"
+          placeholder="Password"
           id="password"
-          name="password"
           value={password}
           onChange={(e) => setPassword(e.target.value)}
-          required
-        /><br />
+          className="mt-5 p-3"
+        />
+        <button
+          type="submit"
+          onClick={handleSubmit}
+          className="mt-5 bg-[#FFD19B] border-slate-950 py-2 px-4 rounded-full text-bold"
+        >
+          Signup
+        </button>
+      </div>
 
-        {/* Use a regular submit button for form submission */}
-        <button type="submit">Signup</button>
-      </form>
-
-      {/* The Link component for navigation */}
-      <Link to={`/verifyOTP/${number}`} className="movie-card">
-        Submit
-      </Link>
+      <div className="left-[530px] right-[26px] bottom-[20px] top-[60px] absolute rounded-1x1">
+        <img src={logo} className="w-[500px] h-[350px] sm : block" />
+      </div>
     </div>
+  </div>
   );
 };
 

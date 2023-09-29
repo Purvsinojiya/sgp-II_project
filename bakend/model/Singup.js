@@ -21,15 +21,8 @@ const SignupSchema = new Schema({
     type: String,
     required: true,
     minlength: 6,
-  },
-  otp: {
-    type: String,
-    required: true
-  },
-  cookie: {
-    type: String,
-    required: false
   }
+
 });
 
 SignupSchema.pre('save', async function (next) {

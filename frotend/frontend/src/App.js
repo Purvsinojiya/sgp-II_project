@@ -15,7 +15,11 @@ import { loadStripe } from '@stripe/stripe-js';
 import axios from 'axios';
 import Dashboard from './compontents/Dashboard';
 import Products from "./compontents/products"
-
+import Displayuser from './compontents/DisplayUser'
+import DisplayOrders from './compontents/DisplayOrders';
+import DisplayProducts from './compontents/DisplayProducts';
+import DisplayStock from './compontents/DisplayStock';
+import AddStock from './compontents/AddStock';
 
 function App() {
   useEffect(() => {
@@ -42,6 +46,11 @@ function App() {
             <Route path="/cart" element={<Cart />} />
             <Route path="/payment" element={<Payment/>} />
             <Route path="/admin-dashboard" element={<Dashboard/>} />
+            <Route path="/alluser" element={<Displayuser/>} />
+            <Route path="/allorder" element={<DisplayOrders/>} />
+            <Route path="/allProducts" element={<DisplayProducts/>} />
+            <Route path="/allStocks" element={<DisplayStock />} />
+            <Route path="/addStock" element={<AddStock />} />
           </Routes>
         </div>
       </Router>
