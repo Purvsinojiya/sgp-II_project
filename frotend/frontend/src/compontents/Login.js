@@ -27,7 +27,8 @@ function Login() {
 
       if (response.status === 200) {
         const data = await response.json();
-
+        console.log(data.token);
+        localStorage.setItem('adminAuthtoken',data.token);
         if (data.redirectTo) {
           // Set the redirection URL in state
           setRedirectTo(data.redirectTo);

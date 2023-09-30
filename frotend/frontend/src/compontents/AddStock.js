@@ -28,8 +28,15 @@ function AddStock() {
         productName: stock.productName,
         addquantity: newStockQuantity, // Make sure to include addquantity in the data
       };
+      const token = localStorage.getItem('adminAuthtoken'); 
   
-      const response = await axios.post('http://localhost:7000/admin/addstock', dataToSend);
+      // Create headers with the authorization token
+      const headers = {
+        'Content-Type': 'application/json',
+        'Authorization': `${token}`, // Add the token as a Bearer token
+      };
+  
+      const response = await axios.post('http://localhost:7000/admin/addstock', dataToSend,{ headers });
       console.log('Stock added:', response.data);
   
       // Do something with the response if needed

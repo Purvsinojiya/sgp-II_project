@@ -21,8 +21,17 @@ function AddProduct() {
 
   const handleSubmit = async (event) => {
     event.preventDefault();
+  
+    // Retrieve the token from localStorage
+    const token = localStorage.getItem('adminAuthtoken'); 
+    // Create headers with the authorization token
+    const headers = {
+      'Content-Type': 'application/json',
+      'Authorization': `${token}`, // Add the token as a Bearer token
+    };
+  
     try {
-      const response = await axios.post('http://localhost:7000/admin/addProduct', product);
+      const response = await axios.post('http://localhost:7000/admin/addProduct', product, { headers });
       console.log('Product added:', response.data);
       // Do something with the response if needed
     } catch (error) {

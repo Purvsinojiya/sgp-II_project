@@ -6,10 +6,12 @@ function DisplayStock() {
   const [error, setError] = useState(null);
 
   useEffect(() => {
+    const token = localStorage.getItem('adminAuthtoken');
     fetch('http://localhost:7000/admin/stocks', {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',
+        'Authorization': `${token}`,
       },
     })
       .then((response) => {

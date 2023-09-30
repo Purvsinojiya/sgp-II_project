@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+var localStorage = require('localStorage')
 
 function DisplayOrders() {
   const [orders, setOrders] = useState([]);
@@ -6,10 +7,14 @@ function DisplayOrders() {
   const [error, setError] = useState(null);
 
   useEffect(() => {
+
+    const token = localStorage.getItem('adminAuthtoken'); 
+    console.log(token)
     fetch('http://localhost:7000/admin/order', {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',
+        'Authorization': `${token}`,
       },
     })
       .then((response) => {

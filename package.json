@@ -2,6 +2,7 @@
   "dependencies": {
     "@reduxjs/toolkit": "^1.9.5",
     "dotenv": "^16.3.1",
+    "localStorage": "^1.0.4",
     "react-redux": "^8.1.2"
   }
 }

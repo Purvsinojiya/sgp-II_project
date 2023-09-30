@@ -8,6 +8,7 @@
     "express": "^4.18.2",
     "fast2sms": "^1.0.3",
     "i": "^0.3.7",
+    "localStorage": "^1.0.4",
     "mongoose": "^7.4.1",
     "npm": "^9.8.1",
     "otp-generator": "^4.0.1",

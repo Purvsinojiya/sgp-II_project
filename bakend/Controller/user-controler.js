@@ -15,6 +15,7 @@ const Addresh =require('../model/Addresh')
 const jwtKey="jwt";
 const Order = require('../model/order')
 const Profiles = require('../model/profile.js');
+const localStorage = require('localStorage')
 
 
 
@@ -224,19 +225,18 @@ const sentOTP = async (req, res, next) => {
  // Import the jsonwebtoken library
 
  const login = async (req, res, next) => {
-  const jwtSecret = "your"; // Replace with your own secret key
+  const jwtSecret = "jwt"; // Replace with your own secret key
   console.log('Login request received');
   const { number, password } = req.body; // Assuming "name" is used for username
-
-  if (!number || !password) {
-    return res.status(400).json({ message: 'Please provide the name and password' });
-  }
 
   try {
     if (number === '9925437458' && password === 'purv123') {
       // If number and password match, consider it an admin login
-      // Send a JSON response with the redirection URL
-      return res.status(200).json({ redirectTo: '/admin-dashboard' }); // Change '/admin-dashboard' to your actual admin dashboard route
+      // Generate an admin token
+      const adminToken = jwt.sign({ role: 'admin' }, jwtSecret, { expiresIn: '1h' });
+    
+      // Send a JSON response with the admin token
+      return res.status(200).json({ token: adminToken, redirectTo: '/admin-dashboard' });
     }
 
     // If the name and password do not match admin credentials, continue with regular user login
@@ -252,23 +252,27 @@ const sentOTP = async (req, res, next) => {
       return res.status(401).json({ message: 'Invalid password' });
     }
 
-  
+    // Generate a user token
+    const userToken = jwt.sign({ userId: user._id, role: 'user' }, jwtSecret, { expiresIn: '1h' });
 
     const loginData = new Login({
       number,
-      password, // Do not store the plain password; this is for demonstration purposes only
       userId: user._id,
     });
 
     await loginData.save();
+    
+    // Set the user token in localStorage
+   
 
     // Send the token in the JSON response to the frontend for regular users
-    return res.status(201).json({message: 'Payment completed successfully!' });
+    return res.status(201).json({ token: userToken, message: 'Login successful!' });
   } catch (err) {
     console.error('Error occurred during login:', err);
     return next(err);
   }
 };
+
 
   function verificationToken(req, res, next) {
     const beartoken = req.headers['authorization'];

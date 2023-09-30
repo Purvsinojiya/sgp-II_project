@@ -1,9 +1,9 @@
 const jwt = require('jsonwebtoken');
-// const { jwtSecret } = require('../config'); // Import your secret key from a config file
+const  jwtSecret = 'jwt' // Import your secret key from a config file
 
 const authMiddleware = (req, res, next) => {
   // Get the token from the request headers
-  const token = req.header('x-auth-token');
+  const token = req.header('Authorization');
 
   // Check if there's no token
   if (!token) {
