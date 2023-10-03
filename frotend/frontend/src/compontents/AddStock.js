@@ -47,12 +47,12 @@ function AddStock() {
   
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gradient-to-r from-blue-400 via-purple-500 to-pink-500">
-      <div className="max-w-md mx-auto p-6 bg-white rounded shadow-xl">
-        <h1 className="text-2xl font-bold mb-4">Add Stock</h1>
+    <div className="min-h-screen flex items-center justify-center bg-gradient-to-r from-blue-400 bg-orange-200">
+      <div className=" h-auto w-auto max-w-md mx-auto p-5 m-7 mt-4 pt-6 p-10 bg-white rounded shadow-xl">
+        <h1 className="text-[1.4rem] font-bold mb-3 text-neutral-600">Add Stock</h1>
         <form onSubmit={handleSubmit}>
           <div className="mb-4">
-            <label htmlFor="sellerName" className="block text-gray-700 font-bold mb-2">Seller Name:</label>
+            <label htmlFor="sellerName" className=" pt-2 block text-gray-700 font-bold mb-2">Seller Name:</label>
             <input
               type="text"
               id="sellerName"
@@ -92,7 +92,7 @@ function AddStock() {
 
           <button
             type="submit"
-            className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline-blue active:bg-blue-800"
+            className="bg-orange-300 hover:bg-orange-500 text-white font-bold mt-3 py-2 px-4 rounded focus:outline-none focus:shadow-outline-blue active:bg-blue-800"
           >
             Add Stock
           </button>
