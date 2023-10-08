@@ -20,6 +20,12 @@ import DisplayOrders from './compontents/DisplayOrders';
 import DisplayProducts from './compontents/DisplayProducts';
 import DisplayStock from './compontents/DisplayStock';
 import AddStock from './compontents/AddStock';
+import Ome from './compontents/ome'
+import DashboardH from './compontents/DashboardHarsh';
+// import Loginpage from "./compontents/loginPage"
+// import Addtocart from './compontents/AddToCart.js';
+import PAymentk from './compontents/Payment_Kaivan'
+<link rel="shortcut icon" href="https://b.zmtcdn.com/images/logo/zomato_logo_2017.png" type="image/x-icon"></link>
 
 function App() {
   useEffect(() => {
@@ -36,8 +42,8 @@ function App() {
           <Routes>
             <Route path="/" element={<Home />} />
             <Route path="/:id" element={<Products />} />
-            <Route path="/Signup" element={<Signup />} />
-            <Route path="/Login" element={<Login />} />
+            <Route path="/Signup" element={<DashboardH/>} />
+            <Route path="/Login" element={<Login/>} />
             <Route path="/verifyOTP/:number" element={<Verifyotp />} />
             <Route path="/sendOTP/:number" element={<ResendOTP />} />
             <Route path="/addProduct" element={<Addproduct />} />
@@ -54,7 +60,6 @@ function App() {
           </Routes>
         </div>
       </Router>
-     
     </>
   );
 }

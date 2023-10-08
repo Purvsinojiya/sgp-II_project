@@ -24,8 +24,8 @@ const orderSchema = new mongoose.Schema({
   },
   status: {
     type: String,
-    enum: ['pending', 'return', 'delivered', 'canceled'],
-    default: 'pending',
+    enum: ['Pending', 'Return', 'Cancel'],
+    default: 'Pending',
   },
   // Add any other fields you need for your order model
 }, { timestamps: true }); // Add timestamps for createdAt and updatedAt

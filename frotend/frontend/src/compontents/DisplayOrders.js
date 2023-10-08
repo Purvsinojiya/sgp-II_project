@@ -42,38 +42,47 @@ function DisplayOrders() {
   }
 
   return (
-    <div>
-      <h1 className="text-2xl font-bold mb-4">All Orders</h1>
-      <table className="min-w-full divide-y divide-gray-200">
-        <thead className="bg-gray-50">
+    <div className="container mx-auto mt-8">
+      <h1 className="flex text-2xl font-semibold mb-4 justify-center">All Orders</h1>
+      <table className="min-w-full border border-gray-300">
+        <thead>
           <tr>
-            <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-              Order ID
-            </th>
-            <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-              Customer Name
-            </th>
-            <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-              Total Amount
-            </th>
-            {/* Add other table headers for order properties */}
+            <th className="px-4 py-2 bg-[#FCE8C9] opacity-75">Order ID</th>
+            <th className="px-4 py-2 bg-[#FCE8C9] opacity-75">Customer Name</th>
+            <th className="px-4 py-2 bg-[#FCE8C9] opacity-75">Total Amount</th>
+            <th className="px-4 py-2 bg-[#FCE8C9] opacity-75">Order Status</th>
+            <th className="px-4 py-2 bg-[#FCE8C9] opacity-75">Date and Time</th>
           </tr>
         </thead>
-        <tbody className="bg-white divide-y divide-gray-200">
+        <tbody>
           {orders.map((order, index) => (
-            <tr key={index}>
-              <td className="px-6 py-4 whitespace-nowrap">{order.product}</td>
-              <td className="px-6 py-4 whitespace-nowrap">{order.quantity}</td>
-              <td className="px-6 py-4 whitespace-nowrap">{order.totalAmount}</td>
-              <td className="px-6 py-4 whitespace-nowrap">{order.status}</td>
-              <td className="px-6 py-4 whitespace-nowrap">{order.createdAt}</td>
-              {/* Add other table cells for order properties */}
+            <tr key={order.id} className={index % 2 === 0 ? 'bg-white' : 'bg-gray-100'}>
+              <td className="px-4 py-2 text-center">{order.product}</td>
+              <td className="px-4 py-2 text-center">{order.quantity}</td>
+              <td className="px-4 py-2 text-center">₹{order.totalAmount.toFixed(2)}</td>
+              <td className={`px-4 py-2 text-center ${getStatusColor(order.status)}`}>
+                {order.status}
+              </td>
+              <td className="px-4 py-2 text-center">{order.createdAt}</td>
             </tr>
           ))}
         </tbody>
       </table>
     </div>
   );
+}
+
+function getStatusColor(orderStatus) {
+  switch (orderStatus) {
+    case 'pending':
+      return 'bg-green-200'; // Green background for Pending
+    case 'cancel':
+      return 'bg-red-200'; // Red background for Cancel
+    case 'return':
+      return 'bg-yellow-200'; // Yellow background for Return
+    default:
+      return '';
+  }
 }
 
 export default DisplayOrders;

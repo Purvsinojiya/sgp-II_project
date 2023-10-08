@@ -39,40 +39,30 @@ function DisplayProducts() {
   }
 
   return (
-    <div>
-      <h1 className="text-2xl font-bold mb-4">All Products</h1>
-      <table className="min-w-full divide-y divide-gray-200">
-        <thead className="bg-gray-50">
-          <tr>
-            <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-              Product ID
-            </th>
-            <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-              Product Name
-            </th>
-            <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-              Price
-            </th>
-            <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-              Quantity
-            </th>
-            {/* Add other table headers for product properties */}
+    <div className="container mx-auto mt-8">
+    <h1 className="flex text-2xl font-semibold mb-4 justify-center">All Products</h1>
+    <table className="min-w-full border border-gray-400">
+      <thead>
+        <tr>
+          <th className="px-4 py-2 bg-[#FCE8C9] opacity-75">Product ID</th>
+          <th className="px-4 py-2 bg-[#FCE8C9] opacity-75">Product Name</th>
+          <th className="px-4 py-2 bg-[#FCE8C9] opacity-75">Price</th>
+          <th className="px-4 py-2 bg-[#FCE8C9] opacity-75">Quantity</th>
+        </tr>
+      </thead>
+      <tbody>
+        {products.map((product,index) => (
+          <tr key={product.id} className={index % 2 === 0 ? 'bg-white' : 'bg-gray-100'}>
+            <td className="px-4 py-2 text-center">{product.productName}</td>
+            <td className="px-4 py-2 text-center">{product.productPrice}</td>
+            <td className="px-4 py-2 text-center">₹{product.productDescription}</td>
+            <td className="px-4 py-2 text-center">₹{product.Queinty}</td>
           </tr>
-        </thead>
-        <tbody className="bg-white divide-y divide-gray-200">
-          {products.map((product, index) => (
-            <tr key={index}>
-              <td className="px-6 py-4 whitespace-nowrap">{product.productName}</td>
-              <td className="px-6 py-4 whitespace-nowrap">{product.productPrice}</td>
-              <td className="px-6 py-4 whitespace-nowrap">{product.productDescription}</td>
-              <td className="px-6 py-4 whitespace-nowrap">{product.imageUrl}</td>
-              {/* Add other table cells for product properties */}
-            </tr>
-          ))}
-        </tbody>
-      </table>
-    </div>
-  );
+        ))}
+      </tbody>
+    </table>
+  </div>
+);
 }
 
 export default DisplayProducts;
