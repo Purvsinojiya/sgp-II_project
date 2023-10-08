@@ -9,7 +9,7 @@ const orderSchema = new mongoose.Schema({
         required: true // Make sure this is set to true
     },
       product: {
-        type: mongoose.Schema.Types.ObjectId,
+        type: String,
         ref: 'Product', // Reference to the product in the order
         required: true,
       },

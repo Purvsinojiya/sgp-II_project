@@ -74,9 +74,9 @@ function DisplayOrders() {
 
 function getStatusColor(orderStatus) {
   switch (orderStatus) {
-    case 'pending':
+    case 'Pending':
       return 'bg-green-200'; // Green background for Pending
-    case 'cancel':
+    case 'cancal':
       return 'bg-red-200'; // Red background for Cancel
     case 'return':
       return 'bg-yellow-200'; // Yellow background for Return

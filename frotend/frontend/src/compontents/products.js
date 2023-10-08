@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { useCart } from './CartContext';
+import Navbar from './Navbar';
 
 function ProductDetail() {
   const { id } = useParams();
@@ -43,18 +44,25 @@ function ProductDetail() {
   const totalPrice = product.productPrice * quantity;
 
   return (
+  <>
+    <Navbar/>
     <div className="w-[348px] h-[524px] left-[13px] top-[72px] lg:w-[1024.89px] lg:h-[547px] lg:left-[208px] lg:top-[107px] absolute">
     <div className="w-[348px] h-[524px] lg:w-[1024.89px] lg:h-[547px] left-0 top-0 absolute bg-[#fce8c9] rounded-[20px] shadow-xl" />
         <div className="w-[237px] h-[41px] lg:w-[245px] lg:h-[61.49px] px-7 py-[3px] left-[56px] top-[397px] lg:left-[609.08px] lg:top-[377.74px] absolute bg-[#fba557] hover:bg-[#fb8c24] rounded-[10px] justify-center items-center gap-4 inline-flex shadow-xl">
-        <div className="text-center text-white text-3xl font-semibold font-sans leading-10 cursor-pointer ">
-            Buy Now
-        </div>
+        <div className="text-center text-white text-3xl font-semibold font-sans leading-10 cursor-pointer">
+      <Link to="/checkout" className="hover:underline">
+        Buy Now
+      </Link>
+    </div>
 
     </div>
 
     <div className="w-[237px] h-[41px] lg:w-[245px] lg:h-[61.49px] px-7 py-[3px] left-[56px] top-[460px] lg:left-[609.08px] lg:top-[459.74px] absolute bg-[#fba557] hover:bg-[#fb8c24] rounded-[10px] justify-center items-center gap-4 inline-flex shadow-xl">
         <div className="text-center text-white text-3xl font-semibold font-sans leading-10 cursor-pointer">
-            Add to Cart
+        <Link to="/" className="hover:underline">
+        Add to Cart
+      </Link>
+            
         </div>
 
     </div>
@@ -78,6 +86,7 @@ function ProductDetail() {
         </div>
         
 </div>
+</>
   );
 }
 

@@ -2,6 +2,8 @@ import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import bannerImage from "./banner.jpg";
 import productImage from "./sopari.jpeg";
+import Navbar from "./Navbar";
+import Footer from "./Footer";
 function Home() {
   const [movies, setMovies] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -58,10 +60,11 @@ function Home() {
 
   return (
     <div>
+    <Navbar/>
       <div className="w-full h-[250px] flex justify-center">
         <img src={bannerImage} alt="Banner" className="object-cover w-[100%]" />
       </div>
-      <div className="flex flex-wrap justify-center container mx-auto py-8">
+      {/* <div className="flex flex-wrap justify-center container mx-auto py-8">
         <div className=" p-1 mb-1">
           <div className="flex items-center justify-between">
             <button
@@ -96,7 +99,7 @@ function Home() {
             </button>
           </div>
         </div>
-      </div>
+      </div> */}
       <div className="flex flex-wrap justify-center mx-12">
         {movies.map((movie) => (
           <Link to={`/${movie._id}`} key={movie._id} className="movie-card">
@@ -126,6 +129,7 @@ function Home() {
           </Link>
         ))}
       </div>
+      <Footer/>
     </div>
   );
 }

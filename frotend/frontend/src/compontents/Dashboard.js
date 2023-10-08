@@ -18,25 +18,42 @@ const Dashboard = () => {
         {/* Navigation links */}
         <ul className="mt-6">
           <li className="mb-4">
-            <Link to="/admin-dashboard" className="text-white hover:text-blue-300">Dashboard</Link>
+            <Link
+              to="/admin-dashboard"
+              className="text-white hover:text-blue-300"
+            >
+              Dashboard
+            </Link>
           </li>
           <li className="mb-4">
-            <Link to="/allProducts" className="text-white hover:text-blue-300">Products</Link>
+            <Link to="/allProducts" className="text-white hover:text-blue-300">
+              Products
+            </Link>
           </li>
           <li className="mb-4">
-            <Link to="/allorder" className="text-white hover:text-blue-300">Orders</Link>
+            <Link to="/allorder" className="text-white hover:text-blue-300">
+              Orders
+            </Link>
           </li>
           <li className="mb-4">
-            <Link to="/alluser" className="text-white hover:text-blue-300">Users</Link>
+            <Link to="/alluser" className="text-white hover:text-blue-300">
+              Users
+            </Link>
           </li>
           <li className="mb-4">
-            <Link to="/addProduct" className="text-white hover:text-blue-300">Add Product</Link>
+            <Link to="/addProduct" className="text-white hover:text-blue-300">
+              Add Product
+            </Link>
           </li>
           <li className="mb-4">
-            <Link to="/addStock" className="text-white hover:text-blue-300">Stock Add</Link>
+            <Link to="/addStock" className="text-white hover:text-blue-300">
+              Stock Add
+            </Link>
           </li>
           <li className="mb-4">
-            <Link to="/allStocks" className="text-white hover:text-blue-300">Current Stock</Link>
+            <Link to="/allStocks" className="text-white hover:text-blue-300">
+              Current Stock
+            </Link>
           </li>
         </ul>
       </aside>

@@ -2,6 +2,7 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useCart } from './CartContext';
+import Navbar from './Navbar';
 
 function Checkout() {
   const navigate = useNavigate();
@@ -54,8 +55,10 @@ function Checkout() {
   
 
   return (
-  
+  <>
+  <Navbar/>
     <main className="p-9 min-h-screen flex items-center justify-center">
+    
   <div className="w-[328px] h-full lg:w-[1025px] lg:h-full flex-shrink-0 bg-[#FCE8C9] rounded-[20px] shadow-xl ring-1 ring-slate-900/5">
     <div className="p-8">
       <div className="mb-4 w-[270px] h-[64px] lg:w-[304px] lg:h-[64px] flex-shrink-0 bg-[#f8f8f8] rounded-tr-[20px] rounded-bl-[20px] shadow-xl ring-1 ring-slate-900/5">
@@ -137,18 +140,20 @@ function Checkout() {
           </div>
         </div>
         <div className="flex lg:justify-end px-1 lg:px-[110px]">
-          <button
-            type="submit"
-            className="bg-[#FBA557] hover:bg-[#fb8c24] text-white font-bold py-2 px-10 rounded shadow-xl focus:outline-none focus:ring-1 focus:ring-orange-500"
-          >
-            Submit
-          </button>
+        <Link to="/payment">
+      <button
+        type="button"
+        className="bg-[#FBA557] hover:bg-[#fb8c24] text-white font-bold py-2 px-10 rounded shadow-xl focus:outline-none focus:ring-1 focus:ring-orange-500"
+      >
+        Submit
+      </button>
+    </Link>
         </div>
       </form>
     </div>
   </div>
 </main>
-
+</>
   );
 }
 
