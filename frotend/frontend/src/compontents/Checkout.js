@@ -9,12 +9,25 @@ function Checkout() {
   const [country, setCountry] = useState('');
   const [state, setState] = useState('');
   const [city, setCity] = useState('');
+
   const [streetAddress, setStreetAddress] = useState('');
   const [pincode, setPincode] = useState('');
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
+    function getCookie(cookieName) {
+      const cookies = document.cookie.split(';');
+      for (let i = 0; i < cookies.length; i++) {
+        const cookie = cookies[i].trim();
+        if (cookie.startsWith(cookieName + '=')) {
+          return decodeURIComponent(cookie.substring(cookieName.length + 1));
+        }
+      }
+      return null; // Cookie not found 
+    }
+    
+    const number = getCookie('number');
+    console.log(number)
     // Access the form values from the state variables
 
     // Add your logic to send the form data to the backend
@@ -24,8 +37,10 @@ function Checkout() {
       city,
       streetAddress,
       pincode,
+      user:number,
     };
-
+console.log(formData)
+console.log(formData.user)
     try {
       const response = await fetch('http://localhost:7000/apoo/checkout', {
         method: 'POST',
@@ -66,7 +81,7 @@ function Checkout() {
           Add Address
         </div>
       </div>
-      <form onSubmit={handleSubmit}>
+     
         <div className="mb-4 px-1 lg:px-[110px]">
           <label htmlFor="country" className="block text-gray-700 font-bold mb-2">
             Country
@@ -144,12 +159,12 @@ function Checkout() {
       <button
         type="button"
         className="bg-[#FBA557] hover:bg-[#fb8c24] text-white font-bold py-2 px-10 rounded shadow-xl focus:outline-none focus:ring-1 focus:ring-orange-500"
-      >
+       onClick={handleSubmit}>
         Submit
       </button>
     </Link>
         </div>
-      </form>
+      
     </div>
   </div>
 </main>

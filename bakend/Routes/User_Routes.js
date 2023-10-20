@@ -1,7 +1,7 @@
 const express = require('express');
 const userRouter = express.Router();
-const { signup,verifyOTP,sentOTP,profile,gaddtocart, addtocart,getAllMovies, Products,getOredr,stripes,verifylogin,Addres,order,Profile,updateProfileByUserId,buy,login} = require("../Controller/user-controler")
-const authMiddleware = require('../Middelware/middelware');
+const { signup,verifyOTP,sentOTP,add,profile,gaddtocart, addtocart,getAllMovies, Products,getOredr,stripes,verifylogin,Addres,order,Profile,updateProfileByUserId,buy,login} = require("../Controller/user-controler")
+
 
 
 
@@ -23,6 +23,7 @@ userRouter.post('/addtocart',addtocart);
 userRouter.get('/addtocart/:number',gaddtocart);
 userRouter.get('/gorder/:number',getOredr);
 userRouter.get('/profile/:number',profile);
+userRouter.get('/add/:number',add);
 userRouter.get('/home/:id',Products)
 
 

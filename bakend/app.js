@@ -7,6 +7,7 @@ const cookieParser = require('cookie-parser');
 const stripeSecretKey = 'sk_test_51Mr40CSGOCO7N9Qbb26Bhmc4fNAWLnXUBMbLXeX9jjGeYhkYXs0Quu5LjTBrkt7JoiV4i0OHc2FZ728lVIvQel1S00ibqRvTzv'; // Replace with your actual Stripe secret key
 const stripe = require('stripe')(stripeSecretKey);
 const verifyRole = require('./veifyrole.js');
+const multer  = require('multer')
 
 app.use(cookieParser());
 app.use(cors()); 
@@ -37,6 +38,28 @@ app.get('/admin', verifyRole('user'), (req, res) => {
 app.get('/admin-dashboard', (req, res) => {
   // Place your admin dashboard logic here
   res.send('Welcome to the admin dashboard!');
+});
+
+
+const storage = multer.diskStorage({
+  destination: (req, file, cb) => {
+    cb(null, 'uploads'); // Store uploaded files in the 'uploads' directory
+  },
+  filename: (req, file, cb) => {
+    const fileName = Date.now() + path.extname(file.originalname);
+    cb(null, fileName);
+  },
+});
+
+const upload = multer({ storage });
+
+// Define the route for file uploads
+app.post('/apoo/uploads', upload.single('file'), (req, res) => {
+  if (req.file) {
+    res.json({ success: true, message: 'File uploaded successfully' });
+  } else {
+    res.json({ success: false, message: 'File upload failed' });
+  }
 });
 app.use(cookieParser());
 app.listen(7000, () => {

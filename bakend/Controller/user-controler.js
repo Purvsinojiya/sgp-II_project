@@ -100,15 +100,28 @@ const signup = async (req, res, next) => {
       res.status(200).send({ success: false, message: "tata" });
     }
   };
+  const add= async (req, res) => {
+    try {
+      const number = req.params.number;
+      const data = await Addresh.find({ user:number });
+      // console.log("data = ", data);
+      res.status(200).send({ success: true, data });
+    } catch (error) {
+      res.status(200).send({ success: false, message: "tata" });
+    }
+  };
+
+
+  
   const Addres = async (req, res, next) => {
-    const { country, state, city, streetAddress, pincode } = req.body;
+    const { country, state, city, streetAddress, pincode,user } = req.body;
 
   // Perform validation if necessary
-  if (!country || !state || !city || !streetAddress || !pincode) {
+  if (!country || !state || !city || !streetAddress || !pincode || !user) {
     return res.status(400).json({ error: 'All fields are required' });
   }
-  const user = await Addresh.create({ country,state,city,streetAddress,pincode});
- await user.save();
+  const use= await Addresh.create({ country,state,city,streetAddress,pincode,user});
+ await use.save();
  return res.status(200).json({ message: 'successful' });
   // Save the address data to the in-memory storage (you should use a database)
   
@@ -427,5 +440,5 @@ const stripes = async (req, res, next) => {
 
 
 
-module.exports = { profile,addtocart,gaddtocart,signup,getOredr,verifyOTP,login, sentOTP,getAllMovies,Products,stripes,verifylogin,verificationToken,Addres,order,Profile,buy,updateProfileByUserId
+module.exports = { profile,addtocart,gaddtocart,signup,getOredr,add,verifyOTP,login, sentOTP,getAllMovies,Products,stripes,verifylogin,verificationToken,Addres,order,Profile,buy,updateProfileByUserId
 };
