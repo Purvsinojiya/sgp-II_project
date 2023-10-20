@@ -1,12 +1,12 @@
 import React, { useState } from 'react';
 
 
-function OTPVerification() {
+function  OTPVerification() {
   const [otp, setOTP] = useState('');
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-  
+   
         const formData = {
           otp
         };

@@ -17,10 +17,10 @@ app.use(express.json());
 app.use('/apoo', Routes);
 app.use('/admin',adminRouter)
 
-app.use((err, req, res, next) => {
-  console.error(err);
-  res.status(500).json({ error: 'Internal Server Error' });
-});
+// app.use((err, req, res, next) => {
+//   console.error(err);
+//   res.status(500).json({ error: 'Internal Server Error' });
+// });
 
 // app.use((req, res, next) => {
 //   res.setHeader('Access-Control-Allow-Origin', 'http://localhost:3000');
@@ -38,7 +38,7 @@ app.get('/admin-dashboard', (req, res) => {
   // Place your admin dashboard logic here
   res.send('Welcome to the admin dashboard!');
 });
-
+app.use(cookieParser());
 app.listen(7000, () => {
   console.log('Server is running on port 8000');
 });

@@ -52,7 +52,7 @@ const Signup = () => {
 
        
           // If id is available, navigate to the /verifyOTP route with the id parameter
-          navigate(`/verifyOTP/${number}`);
+          navigate(`/Login`);
         
       } else {
         console.error('Failed to submit form data');

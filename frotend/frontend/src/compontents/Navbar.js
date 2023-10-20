@@ -1,9 +1,37 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
+import dow from './profile.png'
 
 const Navbar = () => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [isLoggin, setIsLoggin] = useState(false);
 
+  useEffect(() => {
+    function getCookie(cookieName) {
+      const cookies = document.cookie.split(';');
+      for (let i = 0; i < cookies.length; i++) {
+        const cookie = cookies[i].trim();
+        if (cookie.startsWith(cookieName + '=')) {
+          return decodeURIComponent(cookie.substring(cookieName.length + 1));
+        }
+      }
+      
+      return null; // Cookie not found
+    }
+    
+    const number = getCookie('number');
+    console.log("the number: " + number);
+
+    if (number === null) {
+      setIsLoggin(false); // Use setIsLoggin to update the state
+    } else {
+      setIsLoggin(true); // Use setIsLoggin to update the state
+    }
+  }, []);
+  
+  
+
+    
   const toggleMobileMenu = () => {
     setMobileMenuOpen(!mobileMenuOpen);
   };
@@ -56,9 +84,7 @@ const Navbar = () => {
         {/* Desktop menu */}
         <div className="hidden md:flex space-x-4">
          
-        <Link to="/products" className="text-white hover:text-gray-300">
-            Products
-          </Link>
+       
           <Link to="/login" className="text-white hover:text-gray-300">
             Login
           </Link>
@@ -68,27 +94,33 @@ const Navbar = () => {
           <Link to="/cart" className="text-white hover:text-gray-300">
             Add to Cart
           </Link>
+          {isLoggin ? (
+            <Link to="/profile" className="text-white hover:text-gray-300">
+            <img src={dow} alt='' className='w-5 h-5'></img>
+          </Link>
+          ):(
           <Link to="/profile" className="text-white hover:text-gray-300">
             Profile
           </Link>
+          )}
         </div>
       </div>
 
       {/* Mobile menu */}
       {mobileMenuOpen && (
         <div className="md:hidden bg-[#ca9b59]">
-          <a href="#" className="block py-2 px-4 text-white">
+        <Link to="/login" className="block py-2 px-4 text-white">
             Login
-          </a>
-          <a href="#" className="block py-2 px-4 text-white">
+            </Link>
+            <Link to="/signup" className="block py-2 px-4 text-white">
             Signup
-          </a>
-          <a href="#" className="block py-2 px-4 text-white">
+            </Link>
+            <Link to="/cart"  className="block py-2 px-4 text-white">
             Add to Cart
-          </a>
-          <a href="#" className="block py-2 px-4 text-white">
+            </Link>
+            <Link to="/profile" className="block py-2 px-4 text-white">
             Profile
-          </a>
+            </Link>
         </div>
       )}
     </nav>

@@ -16,6 +16,7 @@ const jwtKey="jwt";
 const Order = require('../model/order')
 const Profiles = require('../model/profile.js');
 const localStorage = require('localStorage')
+const Addtocart = require('../model/addtocart')
 
 
 
@@ -23,6 +24,7 @@ const localStorage = require('localStorage')
 
 const fast2sms = require('fast2sms');
 const { Types } = require('mongoose');
+
 
 const signup = async (req, res, next) => {
   const { name, email, number, password } = req.body;
@@ -65,6 +67,38 @@ const signup = async (req, res, next) => {
       console.error("Error updating stock:", error);
       res.status(500).json({ message: 'Error updating stock', error });
     }
+  };
+  const gaddtocart = async (req, res) => {
+    try {
+      const number = req.params.number;
+      const data = await Addtocart.find({ user:number });
+      // console.log("data = ", data);
+      res.status(200).send({ success: true, data });
+    } catch (error) {
+      res.status(200).send({ success: false, message: "tata" });
+    }
+  };
+
+
+   const getOredr = async (req, res) => {
+    try {
+      const number = req.params.number;
+      const data = await Order.find({ user:number });
+      // console.log("data = ", data);
+      res.status(200).send({ success: true, data });
+    } catch (error) {
+      res.status(200).send({ success: false, message: "tata" });
+    }
+  };
+  const profile= async (req, res) => {
+    try {
+      const number = req.params.number;
+      const data = await Signup.find({ number:number });
+      // console.log("data = ", data);
+      res.status(200).send({ success: true, data });
+    } catch (error) {
+      res.status(200).send({ success: false, message: "tata" });
+    }
   };
   const Addres = async (req, res, next) => {
     const { country, state, city, streetAddress, pincode } = req.body;
@@ -113,26 +147,57 @@ const getAllMovies = async (req, res, next) => {
   }
 };
 const order = async (req, res, next) => {
-    try {
-      const {user,product, quantity,totalAmount, orderDate } = req.body;
-      const order = new Order({
-        user,
-        product,
-        quantity,
-        totalAmount,
-        orderDate,
-      });
+
+
+  try {
+    const { product, quantity, totalAmount,user} = req.body;
+    console.log(user);
+    const order = new Order({
+      user,
+      product,
+      quantity,
+      totalAmount,
+    });
+
+    // Save the order to the database
+    await order.save();
+
+    // Save the number in the database
   
-      // Save the order to the database
-      await order.save();
+
+    res.status(201).json(order);
+  } catch (err) {
+    console.error('Error creating order:', err);
+    res.status(500).json({ error: err.message });
+  }
+};
+
+
+const addtocart = async (req, res, next) => {
+
+  try {
+    const { product, quantity, totalAmount,user} = req.body;
+    console.log(user);
+    const order = new Addtocart({
+      user,
+      product,
+      quantity,
+      totalAmount,
+    });
+
+    // Save the order to the database
+    await order.save();
+
+    // Save the number in the database
   
-      res.status(201).json(order);
-    } catch (err) {
-      console.error('Error creating order:', err);
-      res.status(500).json({ error: err.message });
-    }
-  };
-  
+
+    res.status(201).json(order);
+  } catch (err) {
+    console.error('Error creating order:', err);
+    res.status(500).json({ error: err.message });
+  }
+};
+
  
   
   
@@ -257,6 +322,7 @@ const sentOTP = async (req, res, next) => {
 
     const loginData = new Login({
       number,
+     password,
       userId: user._id,
     });
 
@@ -361,5 +427,5 @@ const stripes = async (req, res, next) => {
 
 
 
-module.exports = { signup, verifyOTP,login, sentOTP,getAllMovies,Products,stripes,verifylogin,verificationToken,Addres,order,Profile,buy,updateProfileByUserId
+module.exports = { profile,addtocart,gaddtocart,signup,getOredr,verifyOTP,login, sentOTP,getAllMovies,Products,stripes,verifylogin,verificationToken,Addres,order,Profile,buy,updateProfileByUserId
 };

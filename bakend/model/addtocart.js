@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 
 // Define the order schema
-const orderSchema = new mongoose.Schema({
+const addtocartSchema = new mongoose.Schema({
   // Add the fields you need for an order
    user: {
         type: Number,
@@ -30,6 +30,6 @@ const orderSchema = new mongoose.Schema({
 }, { timestamps: true }); // Add timestamps for createdAt and updatedAt
 
 // Create the order model
-const Order = mongoose.model('Order', orderSchema);
+const Addtocart = mongoose.model('Addtocart', addtocartSchema);
 
-module.exports = Order;
+module.exports = Addtocart;

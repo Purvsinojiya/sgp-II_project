@@ -11,6 +11,8 @@ import Cart from './compontents/cart';
 import Checkout from './compontents/Checkout';
 import Payment from './compontents/Payment';
 import Navbar from './compontents/Navbar';
+import Gorder from './compontents/eachorder';
+import Gaddtocart from "./compontents/addcart"
 
 import { Elements } from '@stripe/react-stripe-js';
 import { loadStripe } from '@stripe/stripe-js';
@@ -21,7 +23,7 @@ import Displayuser from './compontents/DisplayUser'
 import DisplayOrders from './compontents/DisplayOrders';
 import DisplayProducts from './compontents/DisplayProducts';
 import PaymentK from './compontents/Payment_Kaivan';
-
+import Profile from './compontents/profile';
 import DisplayStock from './compontents/DisplayStock';
 import AddStock from './compontents/AddStock';
 import Ome from './compontents/ome'
@@ -58,6 +60,9 @@ function App() {
             <Route path="/checkout" element={<Checkout />} />
             <Route path="/cart" element={<ADDtocart />} />
             <Route path="/payment" element={<PaymentK/>} />
+            <Route path="/gorder" element={<Gorder/>} />
+            <Route path="/profile" element={<Profile/>} />
+            <Route path="/gaddtocart" element={<Gaddtocart/>} />
              <Route
         path="/admin-dashboard"
         element={

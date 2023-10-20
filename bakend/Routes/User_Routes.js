@@ -1,6 +1,6 @@
 const express = require('express');
 const userRouter = express.Router();
-const { signup,verifyOTP,sentOTP, getAllMovies, Products,stripes,verifylogin,Addres,order,Profile,updateProfileByUserId,buy,login} = require("../Controller/user-controler")
+const { signup,verifyOTP,sentOTP,profile,gaddtocart, addtocart,getAllMovies, Products,getOredr,stripes,verifylogin,Addres,order,Profile,updateProfileByUserId,buy,login} = require("../Controller/user-controler")
 const authMiddleware = require('../Middelware/middelware');
 
 
@@ -19,6 +19,10 @@ userRouter.post('/checkout',Addres);
 userRouter.post('/Profile',Profile);
 userRouter.put('/profile/:userId',updateProfileByUserId);
 userRouter.post('/order',order);
+userRouter.post('/addtocart',addtocart);
+userRouter.get('/addtocart/:number',gaddtocart);
+userRouter.get('/gorder/:number',getOredr);
+userRouter.get('/profile/:number',profile);
 userRouter.get('/home/:id',Products)
 
 

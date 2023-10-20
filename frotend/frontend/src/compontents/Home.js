@@ -4,6 +4,7 @@ import bannerImage from "./banner.jpg";
 import productImage from "./sopari.jpeg";
 import Navbar from "./Navbar";
 import Footer from "./Footer";
+
 function Home() {
   const [movies, setMovies] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -31,8 +32,10 @@ function Home() {
     }
   };
   useEffect(() => {
-    // Fetch movies
-    fetch("http://localhost:7000/apoo/home", {
+    
+
+
+    fetch(`http://localhost:7000/apoo/home`, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",

@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
+import Cookies from 'js-cookie';
 function Login() {
   const [number, setNumber] = useState('');
   const [password, setPassword] = useState('');
@@ -29,6 +30,8 @@ function Login() {
         const data = await response.json();
         console.log(data.token);
         localStorage.setItem('adminAuthtoken',data.token);
+       
+
         if (data.redirectTo) {
           // Set the redirection URL in state
           setRedirectTo(data.redirectTo);
@@ -37,6 +40,8 @@ function Login() {
         }
       } else {
         if (response.ok) {
+          Cookies.set('number', number);
+         
           console.log('Form data successfully submitted');
           navigate(`/`);
         }
