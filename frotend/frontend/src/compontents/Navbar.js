@@ -91,6 +91,9 @@ const Navbar = () => {
           <Link to="/signup" className="text-white hover:text-gray-300">
             Signup
           </Link>
+          <Link to="/gorder" className="text-white hover:text-gray-300">
+            Orders
+          </Link>
           <Link to="/cart" className="text-white hover:text-gray-300">
             Add to Cart
           </Link>

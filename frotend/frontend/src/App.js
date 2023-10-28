@@ -13,7 +13,7 @@ import Payment from './compontents/Payment';
 import Navbar from './compontents/Navbar';
 import Gorder from './compontents/eachorder';
 import Gaddtocart from "./compontents/addcart"
-
+import PP from "./compontents/PP.js"
 import { Elements } from '@stripe/react-stripe-js';
 import { loadStripe } from '@stripe/stripe-js';
 import axios from 'axios';
@@ -33,7 +33,9 @@ import DashboardH from './compontents/DashboardHarsh';
 import PAymentk from './compontents/Payment_Kaivan'
 import Footer from './compontents/Footer';
 import ADDtocart from './compontents/AddToCart.js';
+import Pr from "./compontents/Pr.js"
 <link rel="shortcut icon" href="https://b.zmtcdn.com/images/logo/zomato_logo_2017.png" type="image/x-icon"></link>
+
 
 function App() {
   useEffect(() => {
@@ -60,8 +62,8 @@ function App() {
             <Route path="/checkout" element={<Checkout />} />
             <Route path="/cart" element={<ADDtocart />} />
             <Route path="/payment" element={<PaymentK/>} />
-            <Route path="/gorder" element={<Gorder/>} />
-            <Route path="/profile" element={<Profile/>} />
+            <Route path="/gorder" element={<PP/>} />
+            <Route path="/profile" element={<Pr/>} />
             <Route path="/gaddtocart" element={<Gaddtocart/>} />
              <Route
         path="/admin-dashboard"

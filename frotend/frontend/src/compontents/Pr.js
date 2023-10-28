@@ -1,12 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import Navbar from './Navbar';
+import Profile_Placeholder from './Profile_Placeholder.png'
 
-function Profile() {
+const Profile = () => {
   const [profiles, setProfiles] = useState([]);
   const [apps, setApps] = useState([]);
   const [isLoggin, setIsLoggin] = useState(false);
   const [selectedFile, setSelectedFile] = useState(null);
-
   useEffect(() => {
     function getCookie(cookieName) {
       const cookies = document.cookie.split(';');
@@ -76,62 +76,69 @@ function Profile() {
   };
 
   return (
-    <div className="bg-gray-100 min-h-screen p-4">
-      <Navbar />
-      <h1 className="text-3xl font-bold my-8">Profile</h1>
-
-      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+    <div className="bg-gray-100 min-h-screen flex justify-center items-center">
+      <div className="flex flex-col md:flex-row w-full p-5">
+      <div className="bg-white text-gray-700 p-5 rounded-lg shadow-lg text-center md:w-1/3 md:h-1/2">
+      {profiles.map((profile) => (
+  <div key={profile.id}>
+    <img src={selectedFile ? URL.createObjectURL(selectedFile) : Profile_Placeholder} alt="Profile_Pic" className="rounded-full border-2 border-orange-300 h-48 w-48 mx-auto mb-5" />
+    <ul className="text-xl font-semibold">
+      <li className='p-1'>{profile.name}</li>
+      <li className='p-1'>{profile.email}</li>
+      <li className='p-1'>{profile.number}</li>
+      {selectedFile && (
         <div>
-          {isLoggin ? (
-            profiles.map((profile) => (
-              <div key={profile._id} className="bg-white rounded-lg shadow-md p-4">
-                <p className="text-xl font-semibold mb-2">Profile Name:</p>
-                <p>Profile Name: {profile.name}</p>
-                <p>Profile Number: {profile.number}</p>
-                <p>Profile email: {profile.email}</p>
-                {selectedFile && (
-                  <div>
-                    <p>Uploaded Photo</p>
-                    <img
-                      src={URL.createObjectURL(selectedFile)}
-                      alt="Uploaded Photo"
-                      className="h-48 w-48"
-                    />
-                  </div>
-                )}
-              </div>
-            ))
-          ) : (
-            <div>No Login</div>
-          )}
         </div>
+      )}
+    </ul>
+    <label className="block p-1 mt-4 text-orange-600 cursor-pointer">
+      <input type="file" className="hidden" onChange={handleFileChange} />
+      <span className="bg-orange-200 text-white py-2 px-4 rounded-full hover:bg-orange-300 transition duration-300">
+        Upload Image
+      </span>
+    </label>
+  </div>
+))}
 
-        {/* App information section */}
-        <div>
-          {isLoggin ? (
-            apps.map((app) => (
-              <div key={app._id} className="bg-white rounded-lg shadow-md p-4">
-                <p className="text-xl font-semibold mb-2">Add information</p>
-                <p>Country: {app.country}</p>
-                <p>State: {app.state}</p>
-                <p>City: {app.city}</p>
-                <p>Street Address: {app.streetAddress}</p>
-                <p>Pincode: {app.pincode}</p>
-              </div>
-            ))
-          ) : (
-            <div>No Login</div>
-          )}
-        </div>
-      </div>
 
-      {/* Image upload form */}
-      <div className="mt-4">
-        <input type="file" onChange={handleFileChange} />
-        <button onClick={handleFileUpload}>Upload Photo</button>
+
+
+</div>
+        {apps.map((app) => (
+  <div key={app._id} className="bg-white p-5 rounded-lg shadow-lg md:ml-5 mt-5 md:mt-0 md:w-full">
+    <ul>
+      <h1 className="text-4xl text-center text-gray-600 font-sans font-semibold mb-5 bg-orange-100 rounded-lg">Profile</h1>
+    </ul>
+    <hr className="mt-2 border-t-2 border-orange-300" />
+    <ul>
+      <p className="text-md p-1 mt-1 font-semibold text-gray-500">Country</p>
+      <p className="p-1 text-2xl font-semibold">{app.country}</p>
+    </ul>
+    <ul>
+      <p className="text-md p-1 mt-1 font-semibold text-gray-500">State</p>
+      <p className="p-1 text-2xl font-semibold">{app.state}</p>
+    </ul>
+    <ul>
+      <p className="text-md p-1 mt-1 font-semibold text-gray-500">City</p>
+      <p className="p-1 text-2xl font-semibold">{app.city}</p>
+    </ul>
+    <ul>
+      <p className="text-md p-1 mt-1 font-semibold text-gray-500">Street Address</p>
+      <p className="text-xl p-1 font-semibold">
+        Sometimes on purpose injected humour and the like.
+      </p>
+    </ul>
+    <ul>
+      <p className="text-md p-1 mt-1 font-semibold text-gray-500">Pincode</p>
+      <p className="p-1 text-2xl font-semibold">{app.pincode}</p>
+    </ul>
+  
+  </div>
+))}
+
       </div>
     </div>
   );
-}
+};
 
 export default Profile;
