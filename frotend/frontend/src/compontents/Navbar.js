@@ -98,7 +98,7 @@ const Navbar = () => {
             Add to Cart
           </Link>
           {isLoggin ? (
-            <Link to="/profile" className="text-white hover:text-gray-300">
+            <Link to="/profile" className="text-white hover:text-gray-300 mt-1">
             <img src={dow} alt='' className='w-5 h-5'></img>
           </Link>
           ):(
@@ -118,12 +118,18 @@ const Navbar = () => {
             <Link to="/signup" className="block py-2 px-4 text-white">
             Signup
             </Link>
+            <Link to="/gorder" className="block py-2 px-4 text-white">
+            Orders
+          </Link>
             <Link to="/cart"  className="block py-2 px-4 text-white">
             Add to Cart
             </Link>
-            <Link to="/profile" className="block py-2 px-4 text-white">
+           
+          <Link to="/profile" className="block py-2 px-4 text-white">
             Profile
-            </Link>
+          </Link>
+       
+            
         </div>
       )}
     </nav>

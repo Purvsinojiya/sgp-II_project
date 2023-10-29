@@ -34,6 +34,11 @@ import PAymentk from './compontents/Payment_Kaivan'
 import Footer from './compontents/Footer';
 import ADDtocart from './compontents/AddToCart.js';
 import Pr from "./compontents/Pr.js"
+import ADDTO from "./compontents/aa"
+import MYCART from "./compontents/MyCart"
+const stripePromise = loadStripe('pk_test_51Mr40CSGOCO7N9QbWHuiSH230rivS6toAxku1IphldfrfPjSaO3eWfsvPmw3fLfUj0RYB83bqepZTCSwZW2YwLrJ003EcQgrU3'); // Replace with your actual Stripe public key
+
+
 <link rel="shortcut icon" href="https://b.zmtcdn.com/images/logo/zomato_logo_2017.png" type="image/x-icon"></link>
 
 
@@ -60,8 +65,11 @@ function App() {
             <Route path="/sendOTP/:number" element={<ResendOTP />} />
             <Route path="/addProduct" element={<Addproduct />} />
             <Route path="/checkout" element={<Checkout />} />
-            <Route path="/cart" element={<ADDtocart />} />
-            <Route path="/payment" element={<PaymentK/>} />
+            <Route path="/cart" element={<MYCART />} />
+            <Route
+          path="/payment"
+          element={<PaymentK/>}
+        />
             <Route path="/gorder" element={<PP/>} />
             <Route path="/profile" element={<Pr/>} />
             <Route path="/gaddtocart" element={<Gaddtocart/>} />

@@ -26,6 +26,14 @@ const addtocartSchema = new mongoose.Schema({
     enum: ['Pending', 'Return', 'Cancel'],
     default: 'Pending',
   },
+  image: {
+    type: String,
+   
+  },
+  productPrice: {
+    type: Number,
+   
+  },
   // Add any other fields you need for your order model
 }, { timestamps: true }); // Add timestamps for createdAt and updatedAt
 

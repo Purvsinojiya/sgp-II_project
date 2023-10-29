@@ -65,30 +65,35 @@ function Login() {
     <div className="bg-white p-8 rounded-lg shadow-md w-97">
       <h2 className="text-2xl font-semibold mb-4">Login</h2>
       <form onSubmit={handleSubmit}>
+      <div className="mb-4">
+  <label className="block text-gray-700 text-sm font-bold mb-2">
+    Username
+  </label>
+  <input
+    type="text"
+    className="w-full border rounded-md py-2 px-3 focus:outline-none focus:border-blue-400"
+    placeholder="Enter your username"
+    value={number}
+    onChange={(e) => setNumber(e.target.value)}
+    title="Username must be 4-12 characters and can only contain letters, numbers, and underscores."
+  />
+</div>
+
         <div className="mb-4">
-          <label className="block text-gray-700 text-sm font-bold mb-2">
-            Username
-          </label>
-          <input
-            type="text"
-            className="w-full border rounded-md py-2 px-3 focus:outline-none focus:border-blue-400"
-            placeholder="Enter your username"
-            value={number}
-            onChange={(e) => setNumber(e.target.value)}
-          />
-        </div>
-        <div className="mb-4">
-          <label className="block text-gray-700 text-sm font-bold mb-2">
-            Password
-          </label>
-          <input
-            type="password"
-            className="w-full border rounded-md py-2 px-3 focus:outline-none focus:border-blue-400"
-            placeholder="Enter your password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-          />
-        </div>
+  <label className="block text-gray-700 text-sm font-bold mb-2">
+    Password 
+  </label>
+  <input
+    type="password"
+    className="w-full border rounded-md py-2 px-3 focus:outline-none focus:border-blue-400"
+    placeholder="Enter your password"
+    value={password}
+    onChange={(e) => setPassword(e.target.value)}
+    
+    title="Password must contain at least 8 characters, including at least one number, one lowercase, and one uppercase letter."
+  />
+</div>
+
         {/* {errorMessage && (
           <div className="text-red-600 text-sm mb-4">{errorMessage}</div>
         )} */}

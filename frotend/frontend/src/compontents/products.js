@@ -54,6 +54,8 @@ function ProductDetail() {
         quantity,
         totalAmount: product.productPrice * quantity,
         user:number,
+        image: product.imageUrl,
+        productPrice:product.productPrice,
       };
 
       // Make a POST request to create the order
@@ -95,13 +97,14 @@ function ProductDetail() {
       
       const number = getCookie('number');
     
-
       // Create the order data to send to the server
       const orderData = {
         product: product.productName,
         quantity,
         totalAmount: product.productPrice * quantity,
         user:number,
+        image: product.imageUrl,
+        productPrice:product.productPrice,
       };
 
       // Make a POST request to create the order
@@ -136,13 +139,14 @@ function ProductDetail() {
   }
 
   const totalPrice = product.productPrice * quantity;
-
+  Cookies.set('Price', totalPrice);
+     console.log(totalPrice)
   return (
     <>
       <Navbar />
       <div className="w-[348px] h-[524px] left-[13px] top-[72px] lg:w-[1024.89px] lg:h-[547px] lg:left-[208px] lg:top-[107px] absolute">
-        <div className="w-[348px] h-[524px] lg:w-[1024.89px] lg:h-[547px] left-0 top-0 absolute bg-[#fce8c9] rounded-[20px] shadow-xl" />
-        <div className="w-[237px] h-[41px] lg:w-[245px] lg:h-[61.49px] px-7 py-[3px] left-[56px] top-[397px] lg:left-[609.08px] lg:top-[377.74px] absolute bg-[#fba557] hover:bg-[#fb8c24] rounded-[10px] justify-center items-center gap-4 inline-flex shadow-xl">
+        <div className="w-[348px] h-[654px] lg:w-[1024.89px] lg:h-[547px] left-0 top-0 absolute bg-[#fce8c9] rounded-[20px] shadow-xl" />
+        <div className="w-[237px] h-[41px] lg:w-[245px] lg:h-[61.49px] px-7 py-[3px] left-[56px] top-[517px] lg:left-[609.08px] lg:top-[377.74px] absolute bg-[#fba557] hover:bg-[#fb8c24] rounded-[10px] justify-center items-center gap-4 inline-flex shadow-xl">
           <div className="text-center text-white text-3xl font-semibold font-sans leading-10 cursor-pointer">
             <Link to="/checkout" className="hover:underline" onClick={handleBuyNow}>
               Buy Now
@@ -150,7 +154,7 @@ function ProductDetail() {
           </div>
         </div>
 
-        <div className="w-[237px] h-[41px] lg:w-[245px] lg:h-[61.49px] px-7 py-[3px] left-[56px] top-[460px] lg:left-[609.08px] lg:top-[459.74px] absolute bg-[#fba557] hover-bg-[#fb8c24] rounded-[10px] justify-center items-center gap-4 inline-flex shadow-xl">
+        <div className="w-[237px] h-[41px] lg:w-[245px] lg:h-[61.49px] px-7 py-[3px] left-[56px] top-[580px] lg:left-[609.08px] lg:top-[459.74px] absolute bg-[#fba557] hover:bg-[#fb8c24] rounded-[10px] justify-center items-center gap-4 inline-flex shadow-xl">
           <div className="text-center text-white text-3xl font-semibold font-sans leading-10 cursor-pointer">
             <Link to="/" className="hover:underline" onClick={handleAddToCart}>
               Add to Cart
@@ -171,23 +175,28 @@ function ProductDetail() {
         <div className="w-[98px] h-[76.64px] left-[121px] top-[158.06px] lg:w-[128.84px] lg:h-[100.54px] lg:left-[383.60px] lg:top-[223.52px] absolute rounded-[20px]" src={product.imageUrl} />
         <div className="w-[94px] h-[76.64px] left-[233px] top-[158.06px] lg:w-[128.84px] lg:h-[100.54px] lg:left-[383.60px] lg:top-[347.49px] absolute rounded-[20px]" src={product.imageUrl} />
 
-        <div className="w-[95px] h-[29.70px] left-[21px] top-[287px] lg:w-[199.12px] lg:h-[31.23px] lg:left-[558.32px] lg:top-[133.72px] absolute text-black text-xl font-semibold font-sans leading-[30px]">
-          Price: ${product.productPrice}
+        <div className="w-[195px] h-[29.70px] left-[21px] top-[287px] lg:w-[199.12px] lg:h-[31.23px] lg:left-[558.32px] lg:top-[133.72px] absolute text-black text-xl font-semibold font-sans leading-[30px]">
+          Price: ₹{product.productPrice}
         </div>
 
-        <div className="w-[120px] left-[130px] top-[400px] lg:left-[400px] lg:top-[420px] absolute text-black text-xl font-semibold font-sans leading-[30px]">
+        <div className="w-[120px] left-[21px] top-[450px] lg:left-[558.32px] lg:top-[300.74px] absolute text-black text-[17px] font-semibold font-sans leading-[30px]">
           Quantity: {quantity}
         </div>
-        <div className="w-[30px] h-[30px] left-[100px] top-[440px] lg:left-[380px] lg:top-[450px] absolute cursor-pointer"
+        <div className="w-[30px] h-[30px] left-[91px] top-[416px] lg:left-[613.32px] lg:top-[267.74px] text-xl absolute cursor-pointer bg-[#fba557] hover:bg-[#fb8c24] rounded-full"
           onClick={() => handleQuantityChange(quantity - 1)}>
-          -
+          <div className="flex items-center justify-center h-full">-</div>
         </div>
-        <div className="w-[30px] h-[30px] left-[180px] top-[440px] lg:left-[460px] lg:top-[450px] absolute cursor-pointer"
+
+        <div className="w-[30px] h-[30px] left-[21px] top-[416px] lg:left-[558.32px] lg:top-[267.74px] text-xl absolute cursor-pointer bg-[#fba557] hover:bg-[#fb8c24] rounded-full"
           onClick={() => handleQuantityChange(quantity + 1)}>
-          +
+          <div className="flex items-center justify-center h-full">+</div>
         </div>
-        <div className="w-[120px] left-[130px] top-[480px] lg:left-[400px] lg:top-[500px] absolute text-black text-xl font-semibold font-sans leading-[30px]">
-          Total Amount: ${totalPrice}
+
+        <div className="w-[25px] left-[65px] top-[416px] lg:left-[595.32px] lg:top-[267.74px] absolute text-black text-[17px] font-semibold font-sans leading-[30px]">
+          {quantity}
+        </div>
+        <div className="w-[180px] left-[21px] top-[480px] lg:left-[558.32px] lg:top-[327.74px] absolute text-black text-[16px] font-semibold font-sans leading-[30px]">
+          Total Amount: ₹{totalPrice}
         </div>
       </div>
     </>

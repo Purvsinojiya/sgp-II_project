@@ -23,6 +23,7 @@
     "localstorage": "^1.0.1",
     "localStorage": "^1.0.4",
     "navigate": "^0.3.6",
+    "nodemailer": "^6.9.7",
     "os": "^0.1.2",
     "os-browserify": "^0.3.0",
     "path-browserify": "^1.0.1",

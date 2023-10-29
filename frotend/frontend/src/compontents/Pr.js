@@ -125,7 +125,7 @@ const Profile = () => {
     <ul>
       <p className="text-md p-1 mt-1 font-semibold text-gray-500">Street Address</p>
       <p className="text-xl p-1 font-semibold">
-        Sometimes on purpose injected humour and the like.
+        {app.streetAddress}
       </p>
     </ul>
     <ul>

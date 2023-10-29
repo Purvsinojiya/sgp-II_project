@@ -67,42 +67,7 @@ function Home() {
       <div className="w-full h-[250px] flex justify-center">
         <img src={bannerImage} alt="Banner" className="object-cover w-[100%]" />
       </div>
-      {/* <div className="flex flex-wrap justify-center container mx-auto py-8">
-        <div className=" p-1 mb-1">
-          <div className="flex items-center justify-between">
-            <button
-              onClick={handlePrevClick}
-              className={`px-5 py-1 rounded-[20px] bg-[#F1F1F1] hover:bg-gray-400 text-gray-600 focus:outline-none ${
-                startIndex === 0 ? "opacity-50 cursor-not-allowed" : ""
-              }`}
-            >
-              {"<"}
-            </button>
-            <div className="flex space-x-20 px-20 overflow-x-auto">
-              {categories
-                .slice(startIndex, startIndex + itemsToShow)
-                .map((category, index) => (
-                  <button
-                    key={index}
-                    className="px-10 py-1 rounded-[22px] bg-[#F1F1F1] text-gray-600 hover:bg-gray-400 focus:outline-none"
-                  >
-                    {category}
-                  </button>
-                ))}
-            </div>
-            <button
-              onClick={handleNextClick}
-              className={`px-5 py-1 rounded-[20px]  bg-[#F1F1F1] hover:bg-gray-400 text-gray-600 focus:outline-none ${
-                startIndex + itemsToShow >= categories.length
-                  ? "opacity-50 cursor-not-allowed"
-                  : ""
-              }`}
-            >
-              {">"}
-            </button>
-          </div>
-        </div>
-      </div> */}
+    
       <div className="flex flex-wrap justify-center mx-12">
         {movies.map((movie) => (
           <Link to={`/${movie._id}`} key={movie._id} className="movie-card">
@@ -120,7 +85,7 @@ function Home() {
                   <p className="text-gray-600 overflow-hidden line-clamp-2">
                     {movie.productDescription}
                   </p>
-                  <p className="text-gray-600">₹{movie.productPrice}</p>
+                  <p className="text-gray-600 font-[700]">₹{movie.productPrice}</p>
                   <div class="flex justify-center">
                     <button className="mt-2 bg-[#FBA557] text-white px-7 py-1 rounded-[10px] shadow-xl hover:bg-[#fb8c24] focus:outline-none focus:ring-1 focus:ring-orange-500">
                       Buy Now

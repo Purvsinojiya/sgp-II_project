@@ -44,10 +44,10 @@ function DisplayProducts() {
     <table className="min-w-full border border-gray-400">
       <thead>
         <tr>
-          <th className="px-4 py-2 bg-[#FCE8C9] opacity-75">Product ID</th>
+         
           <th className="px-4 py-2 bg-[#FCE8C9] opacity-75">Product Name</th>
           <th className="px-4 py-2 bg-[#FCE8C9] opacity-75">Price</th>
-          <th className="px-4 py-2 bg-[#FCE8C9] opacity-75">Quantity</th>
+         
         </tr>
       </thead>
       <tbody>
@@ -55,8 +55,8 @@ function DisplayProducts() {
           <tr key={product.id} className={index % 2 === 0 ? 'bg-white' : 'bg-gray-100'}>
             <td className="px-4 py-2 text-center">{product.productName}</td>
             <td className="px-4 py-2 text-center">{product.productPrice}</td>
-            <td className="px-4 py-2 text-center">₹{product.productDescription}</td>
-            <td className="px-4 py-2 text-center">₹{product.Queinty}</td>
+          
+           
           </tr>
         ))}
       </tbody>

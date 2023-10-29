@@ -10,21 +10,25 @@ const orderSchema = new mongoose.Schema({
       product: {
         type: String,
         ref: 'Product', // Reference to the product in the order
-        required: true,
+        // required: true,
       },
       quantity: {
         type: Number,
-        required: true,
+        // required: true,
       },
       
   totalAmount: {
     type: Number,
-    required: true,
+    // required: true,
   },
   status: {
     type: String,
     enum: ['Pending', 'Return', 'Cancel'],
     default: 'Pending',
+  },
+  image: {
+    type: String,
+   
   },
   // Add any other fields you need for your order model
 }, { timestamps: true }); // Add timestamps for createdAt and updatedAt

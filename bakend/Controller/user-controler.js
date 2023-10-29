@@ -163,13 +163,14 @@ const order = async (req, res, next) => {
 
 
   try {
-    const { product, quantity, totalAmount,user} = req.body;
+    const { product, quantity, totalAmount,user,image} = req.body;
     console.log(user);
     const order = new Order({
       user,
       product,
       quantity,
       totalAmount,
+      image
     });
 
     // Save the order to the database
@@ -189,13 +190,15 @@ const order = async (req, res, next) => {
 const addtocart = async (req, res, next) => {
 
   try {
-    const { product, quantity, totalAmount,user} = req.body;
+    const { product, quantity, totalAmount,user,image,productPrice} = req.body;
     console.log(user);
     const order = new Addtocart({
       user,
       product,
       quantity,
       totalAmount,
+      image,
+      productPrice,
     });
 
     // Save the order to the database
@@ -419,20 +422,16 @@ const verifylogin = async (req, res) => {
   res.send("hi");
 }
 const stripes = async (req, res, next) => {
-  const { paymentMethodId } = req.body;
-
   try {
-    // Create a payment intent using the payment method ID
+    const { amount, currency, payment_method_types } = req.body;
+
     const paymentIntent = await stripe.paymentIntents.create({
-      payment_method: paymentMethodId,
-      amount: 1000, // Replace with the actual amount to charge (in cents or smallest currency unit)
-      currency: 'usd', // Replace with your preferred currency
-      confirm: true,
+      amount:amount,
+      currency: currency,
+      payment_method_types: payment_method_types,
     });
 
-    // Handle successful payment or error responses
-    // You can customize the response as needed
-    res.status(200).json({ message: 'Payment completed successfully!' });
+    res.status(200).json({ clientSecret: paymentIntent.client_secret });
   } catch (error) {
     res.status(500).json({ error: error.message });
   }

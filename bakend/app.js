@@ -8,6 +8,8 @@ const stripeSecretKey = 'sk_test_51Mr40CSGOCO7N9Qbb26Bhmc4fNAWLnXUBMbLXeX9jjGeYh
 const stripe = require('stripe')(stripeSecretKey);
 const verifyRole = require('./veifyrole.js');
 const multer  = require('multer')
+const bodyParser = require('body-parser');
+const nodemailer = require('nodemailer');
 
 app.use(cookieParser());
 app.use(cors()); 
@@ -62,6 +64,41 @@ app.post('/apoo/uploads', upload.single('file'), (req, res) => {
   }
 });
 app.use(cookieParser());
+
+app.use(bodyParser.json());
+
+// Configure Nodemailer
+const transporter = nodemailer.createTransport({
+  service: 'Gmail', // Use your email service
+  auth: {
+    user: 'poorvsinojiya830@gmail.com',
+    pass: 'uffw cgll xcrr mpae',
+  },
+});
+
+app.post('/send-email', (req, res) => {
+  const { recipient, subject, message } = req.body;
+
+    console.log('Email route accessed');
+    // Rest of your code
+
+  const mailOptions = {
+    from: 'poorvsinojiya830@gmail.com',
+    to: recipient,
+    subject: subject,
+    text: message,
+  };
+
+  transporter.sendMail(mailOptions, (error, info) => {
+    if (error) {
+      console.error('Error:', error);
+      res.status(500).json({ message: 'Email could not be sent' });
+    } else {
+      console.log('Email sent:', info.response);
+      res.json({ message: 'Email sent successfully' });
+    }
+  });
+});
 app.listen(7000, () => {
   console.log('Server is running on port 8000');
 });

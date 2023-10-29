@@ -1,23 +1,23 @@
 import React, { useState } from 'react';
+import axios from 'axios';
 import { CardElement, useStripe, useElements, Elements } from '@stripe/react-stripe-js';
 import { loadStripe } from '@stripe/stripe-js';
-const stripePromise = loadStripe('pk_test_51Mr40CSGOCO7N9QbWHuiSH230rivS6toAxku1IphldfrfPjSaO3eWfsvPmw3fLfUj0RYB83bqepZTCSwZW2YwLrJ003EcQgrU3'); // Replace with your actual Stripe public key
+import { useNavigate } from 'react-router-dom';
+
+const stripePromise = loadStripe('pk_test_51Mr40CSGOCO7N9QbWHuiSH230rivS6toAxku1IphldfrfPjSaO3eWfsvPmw3fLfUj0RYB83bqepZTCSwZW2YwLrJ003EcQgrU3');
 
 const PaymentForm = () => {
-  const [paymentError, setPaymentError] = useState(null);
-  const [paymentComplete, setPaymentComplete] = useState(false);
   const stripe = useStripe();
   const elements = useElements();
-  // State for form inputs
+  const [loading, setLoading] = useState(false);
+  const [paymentError, setPaymentError] = useState(null);
+  const [paymentComplete, setPaymentComplete] = useState(false);
+ 
+  const navigate = useNavigate();
   const [formData, setFormData] = useState({
     name: "",
-    cardNumber: "",
-    expirationMonth: "",
-    expirationYear: "",
-    securityCode: "",
   });
 
-  // Handle form input changes
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     setFormData({
@@ -26,54 +26,85 @@ const PaymentForm = () => {
     });
   };
 
-  // Handle form submission
   const handleSubmit = async (event) => {
     event.preventDefault();
+    setLoading(true);
 
-    if (!stripe || !elements) {
-      console.log("Stripe.js hasn't loaded yet.");
-      return;
+    function getCookie(cookieName) {
+      const cookies = document.cookie.split(';');
+      for (let i = 0; i < cookies.length; i++) {
+        const cookie = cookies[i].trim();
+        if (cookie.startsWith(cookieName + '=')) {
+          return decodeURIComponent(cookie.substring(cookieName.length + 1));
+        }
+      }
+      return null;
     }
 
-    // Create a payment method
-    const { error, paymentMethod } = await stripe.createPaymentMethod({
-      type: 'card',
-      card: elements.getElement(CardElement),
-    });
+    const Price = getCookie('Price');
 
-    if (error) {
-      setPaymentError(error.message);
-      setPaymentComplete(false);
-    } else {
-      // Send the paymentMethod.id to your server to complete the payment
-      try {
-        const response = await fetch('http://localhost:7000/apoo/payment', {
+    try {
+      const { data } = await axios.post('http://localhost:7000/apoo/payment', {
+        description: 'Software development services',
+        shipping: {
+          name: formData.name,
+          address: {
+            line1: '510 Townsend St',
+            postal_code: '98140',
+            city: 'Anand',
+            state: 'Gujarat',
+            country: 'IN',
+          },
+        },
+        amount: Price * 100,
+        currency: 'inr',
+        payment_method_types: ['card'],
+      });
+      const recipient = 'poorvsinojiya830@gmail.com'; // Replace with the recipient's email address
+      const subject = 'NEW ORDER';
+      const message = 'DISPATCHED';
+      const result = await stripe.confirmCardPayment(data.clientSecret, {
+        payment_method: {
+          card: elements.getElement(CardElement),
+          billing_details: {
+            name: formData.name,
+          },
+        },
+      });
+
+      if (result.error) {
+        console.error(result.error.message);
+        setPaymentError(result.error.message);
+      } else {
+        setPaymentComplete(true);
+
+        fetch('http://localhost:7000/send-email', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
           },
-          body: JSON.stringify({ paymentMethodId: paymentMethod.id }),
-        });
-
-        if (response.ok) {
-          setPaymentError(null);
-          setPaymentComplete(true);
-        } else {
-          setPaymentError('Error processing payment. Please try again.');
-          setPaymentComplete(false);
-        }
-      } catch (err) {
-        console.error('Error making the payment request:', err);
-
-        setPaymentError('An error occurred while processing the payment. Please try again.');
-        setPaymentComplete(false);
+          body: JSON.stringify({ recipient, subject, message }),
+        })
+          .then((response) => response.json())
+          .then((data) => {
+            alert(data.message);
+          })
+          .catch((error) => {
+            console.error('Error:', error);
+          });
+        navigate('/');
       }
+    } catch (error) {
+      console.error('Axios error:', error);
+      setPaymentError('Payment failed. Please try again.');
     }
+
+    setLoading(false);
   };
 
   return (
     <div className="w-full h-screen bg-gradient-to-r from-blue-400 bg-orange-200 flex items-center justify-center px-5 pb-10 pt-16">
-      <div className="w-600 mx-auto rounded-lg bg-orange-100 shadow-lg p-5 text-gray-700">
+      <div className="h-[20rem] w-[24rem] mx-auto rounded-lg bg-orange-100 shadow-lg p-5 text-gray-700">
         <div className="bg-orange-300 text-white overflow-hidden rounded-full w-20 h-20 -mt-16 mx-auto shadow-lg flex justify-center items-center">
           <i className="mdi mdi-credit-card-outline text-3xl"></i>
         </div>
@@ -83,85 +114,40 @@ const PaymentForm = () => {
           </h1>
         </div>
         <form onSubmit={handleSubmit}>
-        <CardElement />
           <div className="mb-3">
-            <label className="font-bold text-sm mb-2 ml-1">Name on card</label>
+            <label className="font-bold text-sm mb-2 ml-1">Card Number</label>
+            <div className="mt-6"></div>
             <div>
-              <input
-                placeholder="John Smith"
-                type="text"
-                name="name"
-                value={formData.name}
-                onChange={handleInputChange}
-                className="w-full px-3 py-2 mb-1 border-2 border-gray-200 rounded-md focus:outline-none focus:border-orange-400 transition-colors"
+              <CardElement
+                options={{
+                  iconStyle: "solid",
+                  hidePostalCode: true,
+                }}
+                name="cardInfo"
+                className="w-full px-3 py-2 border-2 border-gray-200 rounded-md focus:outline-none focus:border-orange-400 transition-colors"
               />
             </div>
           </div>
-          <div className="mb-3">
-            <label className="font-bold text-sm mb-2 ml-1">Card number</label>
+         
+          <div className="mt-6"></div>
+
+          {paymentComplete ? (
+            <div className="text-green-600 text-center">
+              Payment completed successfully!
+            </div>
+          ) : (
             <div>
-              <input
-                placeholder="0000 0000 0000 0000"
-                type="text"
-                name="cardNumber"
-                value={formData.cardNumber}
-                onChange={handleInputChange}
-                className="w-full px-3 py-2 mb-1 border-2 border-gray-200 rounded-md focus:outline-none focus:border-orange-400 transition-colors"
-              />
+              <button
+                type="submit"
+                className="block w-full max-w-xs mx-auto bg-orange-300 hover:bg-orange-400 focus:bg-orange-400 text-white rounded-lg px-3 py-3 font-semibold"
+                disabled={!stripe || loading}
+              >
+                PAY NOW
+              </button>
+              {paymentError && <div className="text-red-600 text-center">{paymentError}</div>}
             </div>
-          </div>
-          <div className="mb-3">
-            <label className="font-bold text-sm mb-2 ml-1">
-              Expiration date (MM/YYYY)
-            </label>
-            <div className="flex">
-              <div className="mr-2">
-                <input
-                  placeholder="MM"
-                  type="text"
-                  name="expirationMonth"
-                  value={formData.expirationMonth}
-                  onChange={handleInputChange}
-                  className="w-full px-3 py-2 mb-1 border-2 border-gray-200 rounded-md focus:outline-none focus:border-orange-400 transition-colors"
-                />
-              </div>
-              <div>
-                <input
-                  placeholder="YYYY"
-                  type="text"
-                  name="expirationYear"
-                  value={formData.expirationYear}
-                  onChange={handleInputChange}
-                  className="w-full px-3 py-2 mb-1 border-2 border-gray-200 rounded-md focus:outline-none focus:border-orange-400 transition-colors"
-                />
-              </div>
-            </div>
-          </div>
-          <div className="mb-3">
-            <label className="font-bold text-sm mb-2 ml-1">Security code</label>
-            <div>
-              <input
-                placeholder="000"
-                type="text"
-                name="securityCode"
-                value={formData.securityCode}
-                onChange={handleInputChange}
-                className="w-100 px-3 py-2 mb-1 border-2 border-gray-200 rounded-md focus:outline-none focus:border-orange-400 transition-colors"
-              />
-            </div>
-          </div>
-          <div>
-            <button
-              type="submit"
-              className="block w-full max-w-xs mx-auto bg-orange-300 hover:bg-orange-400 focus:bg-orange-400 text-white rounded-lg px-3 py-3 font-semibold"
-              isabled={!stripe}
-            >
-              PAY NOW
-            </button>
-          </div>
+          )}
         </form>
-        {paymentError && <div>{paymentError}</div>}
-      {paymentComplete && <div>Payment completed successfully!</div>}
       </div>
     </div>
   );

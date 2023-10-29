@@ -43,7 +43,7 @@ function DisplayOrders() {
 
   return (
     <div className="container mx-auto mt-8">
-      <h1 className="flex text-2xl font-semibold mb-4 justify-center">All Orders</h1>
+      <h1 className="flex text-2xl font-semibold mb-4 justify-center ">All Orders</h1>
       <table className="min-w-full border border-gray-300">
         <thead>
           <tr>
