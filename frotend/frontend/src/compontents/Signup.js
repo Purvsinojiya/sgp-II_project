@@ -34,7 +34,7 @@ const Signup = () => {
   
     console.log(formData._id)
     try {
-      const response = await fetch('http://localhost:7000/apoo/Signup', {
+      const response = await fetch('https://shivams.onrender.com/apoo/Signup', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'

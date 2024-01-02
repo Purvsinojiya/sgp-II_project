@@ -16,10 +16,10 @@ function Dashboard() {
     // const returnOrders = orders.filter((order) => order.status === 'return').length;
     const token = localStorage.getItem("adminAuthtoken");
 
-    const orderUrl = "http://localhost:7000/admin/order";
-    const userUrl = "http://localhost:7000/admin/user";
-    const stockUrl = "http://localhost:7000/admin/stocks";
-    const ProductsUrl = "http://localhost:7000/admin/getallProduct";
+    const orderUrl = "https://shivams.onrender.com/admin/order";
+    const userUrl = "https://shivams.onrender.com/admin/user";
+    const stockUrl = "https://shivams.onrender.com/admin/stocks";
+    const ProductsUrl = "https://shivams.onrender.com/admin/getallProduct";
 
     // Use Promise.all to make multiple requests concurrently
     Promise.all([

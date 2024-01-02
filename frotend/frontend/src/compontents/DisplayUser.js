@@ -7,7 +7,7 @@ function DisplayUser() {
 
   useEffect(() => {
     const token = localStorage.getItem('adminAuthtoken'); 
-    fetch('http://localhost:7000/admin/user', {
+    fetch('https://shivams.onrender.com/admin/user', {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',

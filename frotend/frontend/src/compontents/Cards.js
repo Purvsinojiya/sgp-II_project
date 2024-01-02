@@ -20,7 +20,7 @@ function Cards() {
 
     const number = getCookie("number");
 
-    fetch(`http://localhost:7000/apoo/gorder/${number}`)
+    fetch(`https://shivams.onrender.com/apoo/gorder/${number}`)
       .then((response) => response.json())
       .then((data) => {
         if (data.success && Array.isArray(data.data)) {
@@ -36,7 +36,7 @@ function Cards() {
   }, []);
 
   const handleReturn = (productId) => {
-    fetch(`http://localhost:7000/admin/order/return/${productId}`, {
+    fetch(`https://shivams.onrender.com/admin/order/return/${productId}`, {
       method: "PUT",
     })
       .then((response) => {
@@ -59,7 +59,7 @@ function Cards() {
   };
 
   const handleCancel = (productId) => {
-    fetch(`http://localhost:7000/admin/order/cancel/${productId}`, {
+    fetch(`https://shivams.onrender.com/admin/order/cancel/${productId}`, {
       method: "PUT",
     })
       .then((response) => {

@@ -14,7 +14,7 @@ function ProductDetail() {
 
   useEffect(() => {
     // Fetch the product data based on the ID from the backend server
-    fetch(`http://localhost:7000/apoo/home/${id}`)
+    fetch(`https://shivams.onrender.com/apoo/home/${id}`)
       .then((response) => response.json())
       .then((data) => setProduct(data))
       .catch((error) => console.error('Error fetching product:', error));
@@ -59,7 +59,7 @@ function ProductDetail() {
       };
 
       // Make a POST request to create the order
-      const response = await fetch('http://localhost:7000/apoo/addtocart', {
+      const response = await fetch('https://shivams.onrender.com/apoo/addtocart', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -108,7 +108,7 @@ function ProductDetail() {
       };
 
       // Make a POST request to create the order
-      const response = await fetch('http://localhost:7000/apoo/order', {
+      const response = await fetch('https://shivams.onrender.com/apoo/order', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

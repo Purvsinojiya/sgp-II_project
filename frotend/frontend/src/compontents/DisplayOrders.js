@@ -10,7 +10,7 @@ function DisplayOrders() {
 
     const token = localStorage.getItem('adminAuthtoken'); 
     console.log(token)
-    fetch('http://localhost:7000/admin/order', {
+    fetch('https://shivams.onrender.com/admin/order', {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',

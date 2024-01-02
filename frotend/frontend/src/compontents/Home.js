@@ -35,7 +35,7 @@ function Home() {
     
 
 
-    fetch(`http://localhost:7000/apoo/home`, {
+    fetch(`https://shivams.onrender.com/apoo/home`, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",

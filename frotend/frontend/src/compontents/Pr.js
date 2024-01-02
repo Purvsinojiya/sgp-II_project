@@ -28,7 +28,7 @@ const Profile = () => {
       setIsLoggin(true);
     }
 
-    fetch(`http://localhost:7000/apoo/profile/${number}`)
+    fetch(`https://shivams.onrender.com/apoo/profile/${number}`)
       .then((response) => response.json())
       .then((data) => {
         if (data.success && Array.isArray(data.data)) {
@@ -39,7 +39,7 @@ const Profile = () => {
       })
       .catch((error) => console.error('Error fetching user profiles:', error));
 
-    fetch(`http://localhost:7000/apoo/add/${number}`)
+    fetch(`https://shivams.onrender.com/apoo/add/${number}`)
       .then((response) => response.json())
       .then((data) => {
         if (data.success && Array.isArray(data.data)) {
@@ -60,7 +60,7 @@ const Profile = () => {
       const formData = new FormData();
       formData.append('file', selectedFile);
 
-      fetch('http://localhost:7000/apoo/uploads', {
+      fetch('https://shivams.onrender.com/apoo/uploads', {
         method: 'POST',
         body: formData,
       })

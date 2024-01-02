@@ -45,7 +45,7 @@ function MyCart() {
 
     const number = getCookie("number");
 
-    fetch(`http://localhost:7000/apoo/addtocart/${number}`)
+    fetch(`https://shivams.onrender.com/apoo/addtocart/${number}`)
       .then((response) => response.json())
       .then((data) => {
         if (data.success && Array.isArray(data.data)) {

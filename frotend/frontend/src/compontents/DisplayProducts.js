@@ -7,7 +7,7 @@ function DisplayProducts() {
 
   useEffect(() => {
     const token = localStorage.getItem('adminAuthtoken'); 
-    fetch('http://localhost:7000/admin/getallProduct', {
+    fetch('https://shivams.onrender.com/admin/getallProduct', {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',

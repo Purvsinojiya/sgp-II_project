@@ -42,7 +42,7 @@ function Checkout() {
 console.log(formData)
 console.log(formData.user)
     try {
-      const response = await fetch('http://localhost:7000/apoo/checkout', {
+      const response = await fetch('https://shivams.onrender.com/apoo/checkout', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

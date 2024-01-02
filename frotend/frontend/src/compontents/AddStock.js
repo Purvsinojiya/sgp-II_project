@@ -36,7 +36,7 @@ function AddStock() {
         'Authorization': `${token}`, // Add the token as a Bearer token
       };
   
-      const response = await axios.post('http://localhost:7000/admin/addstock', dataToSend,{ headers });
+      const response = await axios.post('https://shivams.onrender.com/admin/addstock', dataToSend,{ headers });
       console.log('Stock added:', response.data);
   
       // Do something with the response if needed

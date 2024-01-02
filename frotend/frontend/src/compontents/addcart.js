@@ -21,7 +21,7 @@ const Addcart = () => {
       console.log("the number: " + number); // Separate the text and number with a space
   
       // Fetch orders for the logged-in user
-      fetch(`http://localhost:7000/apoo/addtocart/${number}`)
+      fetch(`https://shivams.onrender.com/apoo/addtocart/${number}`)
         .then((response) => response.json())
         .then((data) => {
           // Check if the 'data' property contains an array

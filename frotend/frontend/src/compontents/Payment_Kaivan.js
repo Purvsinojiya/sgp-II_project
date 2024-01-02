@@ -44,7 +44,7 @@ const PaymentForm = () => {
     const Price = getCookie('Price');
 
     try {
-      const { data } = await axios.post('http://localhost:7000/apoo/payment', {
+      const { data } = await axios.post('https://shivams.onrender.com/apoo/payment', {
         description: 'Software development services',
         shipping: {
           name: formData.name,
@@ -78,7 +78,7 @@ const PaymentForm = () => {
       } else {
         setPaymentComplete(true);
 
-        fetch('http://localhost:7000/send-email', {
+        fetch('https://shivams.onrender.com/send-email', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
